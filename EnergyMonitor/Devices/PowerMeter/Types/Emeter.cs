@@ -13,8 +13,7 @@ namespace EnergyMonitor.Devices.PowerMeter.Shelly.Types
 
         public Emeter() { }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"{voltage}V {current}A {power}W";
         }
     }

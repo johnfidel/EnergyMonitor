@@ -2,6 +2,7 @@
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.IO;
+using EnergyMonitor.BusinessLogic;
 using EnergyMonitor.Devices.PowerMeter.Shelly;
 
 namespace EnergyMonitor
@@ -11,10 +12,10 @@ namespace EnergyMonitor
         static int Main(string[] args)
         {
 
-            var device = new Shelly3EM();
-            Console.WriteLine(device.GetEmeterData(0, out var data) ? data.ToString() : "");
-            Console.WriteLine(device.GetEmeterData(1, out data) ? data.ToString() : "");
-            Console.WriteLine(device.GetEmeterData(2, out data) ? data.ToString() : "");            
+            var logic = new Logic();
+
+            Console.ReadLine();
+            logic.Stop();
 
             return 0;
             
