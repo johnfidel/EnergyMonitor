@@ -17,5 +17,13 @@ namespace EnergyMonitor.Devices.PowerMeter.Types
         public override string ToString() {
             return $"{Voltage}V {Current}A {Power}W";
         }
+
+        public string CsvHeader() {
+            return "Voltage;Current;Power";
+        }
+
+        public string ToCsvString() {
+            return $"{Voltage};{Current};{Power}";
+        }
     }
 }
