@@ -14,13 +14,13 @@ namespace EnergyMonitor.Devices.PowerMeter.Shelly {
     public Phase Phase2 {get; private set;}
     public Phase Phase3 {get; private set;}
 
-    public double CurrentPowerTotal {get => Phase1.Power+Phase2.Power+Phase3.Power;}
+    public double ActualPowerTotal {get => Phase1.Power+Phase2.Power+Phase3.Power;}
     public string PrintCurrentValues() {
       var builder = new StringBuilder();
       builder.AppendLine(Phase1.ToString())
         .AppendLine(Phase2.ToString())
         .AppendLine(Phase3.ToString())
-        .AppendLine($"Total: {CurrentPowerTotal}W");
+        .AppendLine($"Total: {ActualPowerTotal}W");
 
       return builder.ToString();
     }
