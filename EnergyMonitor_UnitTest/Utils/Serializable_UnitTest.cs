@@ -19,7 +19,7 @@ namespace EnergyMonitor_UnitTest.Utils
             Property1 = "test"
         };
         var json = instance.ToJson();
-        Assert.AreEqual("{\"Property1\":\"test\"}", json);
+        Assert.AreEqual("{\n  \"Property1\": \"test\"\n}", json);
     }
 
     [TestMethod]

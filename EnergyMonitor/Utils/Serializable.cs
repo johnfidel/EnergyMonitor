@@ -1,18 +1,31 @@
+using System;
+using System.IO;
 using Newtonsoft.Json;
 
 namespace EnergyMonitor.Utils
 {
   public class Serializable
   {
-    public string ToJson()    
+    [JsonIgnore]
+    public string FileName { get; protected set; }
+
+    public string ToJson()
     {
-      return JsonConvert.SerializeObject(this);
+      return JsonConvert.SerializeObject(this, Formatting.Indented);
     }
 
-    public static T FromJson<T>(string json) 
-    where T: new()
+    public bool Serialize() {
+      if (FileName != "") {
+        File.WriteAllText(FileName, ToJson());
+        return true;
+      }
+      return false;
+    }
+
+    public static T FromJson<T>(string json)
+    where T : new()
     {
-        return JsonConvert.DeserializeObject<T>(json);
+      return JsonConvert.DeserializeObject<T>(json);
     }
   }
 }
