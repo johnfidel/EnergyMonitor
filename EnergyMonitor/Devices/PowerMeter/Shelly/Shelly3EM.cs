@@ -32,7 +32,7 @@ namespace EnergyMonitor.Devices.PowerMeter.Shelly {
     }    
 
     private bool GetEmeterData(int index, out Emeter data) {
-      var request = WebRequest.Create($"http://192.168.1.37/emeter/{index}");
+      var request = WebRequest.Create($"http://192.168.2.78/emeter/{index}");
       var response = request.GetResponse();
       data = null;
 
