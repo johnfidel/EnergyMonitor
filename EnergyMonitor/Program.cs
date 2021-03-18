@@ -7,44 +7,52 @@ using EnergyMonitor.Devices.PowerMeter.Shelly;
 
 namespace EnergyMonitor
 {
-    class Program
-    {
-        static int Main(string[] args)
-        {
+ class Program
+ {
+  static int Main(string[] args)
+  {
 
-            var logic = new Logic();
+   var logic = new Logic();
 
-            Console.ReadLine();
-            logic.Stop();
+   while (true)
+   {
+    //var command = Console.ReadLine();
+    // if (command == "exit")
+    // {
+    //  break;
+    // }
+   }
 
-            return 0;
-            
-            // // Create a root command with some option
-            // var rootCommand = new RootCommand {
-            //     new Option<int>(
-            //         "--int-option",
-            //         getDefaultValue: () => 42,
-            //         description: "An option whose argument is parsed as an int"),
-            //     new Option<bool>(
-            //         "--bool-option",
-            //         "An option whose argument is parsed as a bool"),
-            //     new Option<FileInfo>(
-            //         "--file-option",
-            //         "An option whose argument is parsed as a FileInfo")
-            // };
+   logic.Stop();
 
-            // rootCommand.Description = "My sample app";
+   return 0;
 
-            // // Note that the parameters of the handler method are matched according to the names of the options
-            // rootCommand.Handler = CommandHandler.Create<int, bool, FileInfo>((intOption, boolOption, fileOption) =>
-            //  {
-            //      Console.WriteLine($"The value for --int-option is: {intOption}");
-            //      Console.WriteLine($"The value for --bool-option is: {boolOption}");
-            //      Console.WriteLine($"The value for --file-option is: {fileOption?.FullName ?? "null"}");
-            //  });
+   // // Create a root command with some option
+   // var rootCommand = new RootCommand {
+   //     new Option<int>(
+   //         "--int-option",
+   //         getDefaultValue: () => 42,
+   //         description: "An option whose argument is parsed as an int"),
+   //     new Option<bool>(
+   //         "--bool-option",
+   //         "An option whose argument is parsed as a bool"),
+   //     new Option<FileInfo>(
+   //         "--file-option",
+   //         "An option whose argument is parsed as a FileInfo")
+   // };
 
-            // // Parse the incoming args and invoke the handler
-            // return rootCommand.InvokeAsync(args).Result;
-        }
-    }
+   // rootCommand.Description = "My sample app";
+
+   // // Note that the parameters of the handler method are matched according to the names of the options
+   // rootCommand.Handler = CommandHandler.Create<int, bool, FileInfo>((intOption, boolOption, fileOption) =>
+   //  {
+   //      Console.WriteLine($"The value for --int-option is: {intOption}");
+   //      Console.WriteLine($"The value for --bool-option is: {boolOption}");
+   //      Console.WriteLine($"The value for --file-option is: {fileOption?.FullName ?? "null"}");
+   //  });
+
+   // // Parse the incoming args and invoke the handler
+   // return rootCommand.InvokeAsync(args).Result;
+  }
+ }
 }

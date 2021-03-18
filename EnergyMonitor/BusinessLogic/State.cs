@@ -10,9 +10,9 @@ namespace EnergyMonitor.BusinessLogic
 
     public enum OutputState
     {
-      Normal = 0,
-      Underpower = 1,
-      Overpower = 2,
+      Unknown = 0,
+      On = 1,
+      Off = 2,
     }
 
     public double ActualAveragePower { get; set; }

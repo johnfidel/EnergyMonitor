@@ -31,13 +31,15 @@ namespace EnergyMonitor.BusinessLogic
       var average = Averager.GetAverage();
       CurrentState.ActualAveragePower = average;
 
-      if (average > Configuration.OverpowerThreshold)
+      if (average > Configuration.OffThreshold)
       {
-        CurrentState.ActualOutputState = State.OutputState.Overpower;
+        CurrentState.ActualOutputState = State.OutputState.Off;
+        Shelly.SetRelayState(false);
       }
-      else if (average < Configuration.UnderpowerThredhols)
+      else if (average < Configuration.OnThreshold)
       {
-        CurrentState.ActualOutputState = State.OutputState.Underpower;
+        CurrentState.ActualOutputState = State.OutputState.On;
+        Shelly.SetRelayState(true);
       }
       CurrentState.Serialize();
 
