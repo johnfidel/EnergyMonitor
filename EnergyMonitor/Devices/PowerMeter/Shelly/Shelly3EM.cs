@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using EnergyMonitor.Devices.PowerMeter.Shelly.Types;
 using EnergyMonitor.Devices.PowerMeter.Types;
 using EnergyMonitor.Utils;
-using EnergyMonitor.utils;
 
 namespace EnergyMonitor.Devices.PowerMeter.Shelly
 {
