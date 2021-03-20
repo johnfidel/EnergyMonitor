@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace EnergyMonitor.utils
+namespace EnergyMonitor.Utils
 {
   public class Logging
   {

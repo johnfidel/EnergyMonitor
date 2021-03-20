@@ -1,5 +1,5 @@
 using System;
-namespace EnergyMonitor.utils
+namespace EnergyMonitor.Utils
 {
   public class LogMessage
   {
