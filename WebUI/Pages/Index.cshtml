@@ -4,10 +4,13 @@
     ViewData["Title"] = "Home page";
 }
 
+<meta http-equiv="refresh" content="2">
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <div>
-        <p>@Model.GetLogic().CurrentState.ActualAveragePower</p>
+        <p>Average Power: @Model.GetLogic().CurrentState.ActualAveragePower</p>
+        <p>Output State: @Model.GetLogic().CurrentState.ActualOutputState</p>
     </div>
 </div>
