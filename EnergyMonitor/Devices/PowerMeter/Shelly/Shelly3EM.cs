@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics.Tracing;
+using System.Text;
 using System;
 using System.Net;
 using System.IO;
@@ -6,6 +7,7 @@ using Newtonsoft.Json;
 using EnergyMonitor.Devices.PowerMeter.Shelly.Types;
 using EnergyMonitor.Devices.PowerMeter.Types;
 using EnergyMonitor.Utils;
+using EnergyMonitor.utils;
 
 namespace EnergyMonitor.Devices.PowerMeter.Shelly
 {
@@ -60,6 +62,8 @@ namespace EnergyMonitor.Devices.PowerMeter.Shelly
     var switchValue = value ? "on" : "off";
     var request = WebRequest.Create($"http://192.168.2.78//relay/0?turn={switchValue}");
     var response = request.GetResponse();
+
+    Logging.Instance().Log(new LogMessage($"Switch Relay {switchValue}"));
    }
   }
 
