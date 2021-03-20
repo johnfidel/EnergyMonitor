@@ -13,8 +13,8 @@ namespace EnergyMonitor.BusinessLogic
 
     private Shelly3EM Shelly { get; set; }
     private AveragerOverTime Averager { get; set; }
-    private Configuration Configuration { get; set; }
-    private State CurrentState { get; set; }
+    public Configuration Configuration { get; set; }
+    public State CurrentState { get; private set; }
 
     protected override void Run()
     {

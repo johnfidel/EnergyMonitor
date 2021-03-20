@@ -1,0 +1,6 @@
+{
+  "OffThreshold": 350.0,
+  "OnThreshold": -250.0,
+  "AverageTimeMinutes": 2,
+  "LogicUpdateRateSeconds": 5
+}

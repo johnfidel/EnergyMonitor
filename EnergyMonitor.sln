@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnergyMonitor", "EnergyMoni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnergyMonitor_UnitTest", "EnergyMonitor_UnitTest\EnergyMonitor_UnitTest.csproj", "{D2465B3F-9344-4180-8BB8-150D156EA8DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "WebUI\WebUI.csproj", "{C9AE682D-3ED7-4351-95E5-5BC79E98ABE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,5 +21,9 @@ Global
 		{D2465B3F-9344-4180-8BB8-150D156EA8DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2465B3F-9344-4180-8BB8-150D156EA8DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2465B3F-9344-4180-8BB8-150D156EA8DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9AE682D-3ED7-4351-95E5-5BC79E98ABE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9AE682D-3ED7-4351-95E5-5BC79E98ABE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9AE682D-3ED7-4351-95E5-5BC79E98ABE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9AE682D-3ED7-4351-95E5-5BC79E98ABE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
