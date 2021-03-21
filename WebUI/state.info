@@ -1,4 +1,8 @@
 {
   "ActualAveragePower": 0.0,
+  "CurrentPower": 0.0,
+  "CurrentPhaseAPower": 0.0,
+  "CurrentPhaseBPower": 0.0,
+  "CurrentPhaseCPower": 0.0,
   "ActualOutputState": 0
 }

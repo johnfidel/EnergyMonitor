@@ -6,11 +6,69 @@
 
 <meta http-equiv="refresh" content="2">
 
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Year', 'Sales', 'Expenses'],
+                ['2004', 1000, 400],
+                ['2005', 1170, 460],
+                ['2006', 660, 1120],
+                ['2007', 1030, 540]
+            ]);
+
+            var options = {
+                title: 'Company Performance',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <div>
-        <p>Average Power: @Model.GetLogic().CurrentState.ActualAveragePower</p>
-        <p>Output State: @Model.GetLogic().CurrentState.ActualOutputState</p>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Phase A</td>
+                <td>@Model.GetLogic().CurrentState.CurrentPhaseAPower</td>
+            </tr>
+            <tr>
+                <td>Phase B</td>
+                <td>@Model.GetLogic().CurrentState.CurrentPhaseBPower</td>
+            </tr>
+            <tr>
+                <td>Phase C</td>
+                <td>@Model.GetLogic().CurrentState.CurrentPhaseCPower</td>
+            </tr>
+            <tr>
+                <td>Total Power</td>
+                <td>@Model.GetLogic().CurrentState.CurrentPower</td>
+            </tr>
+            <tr>
+                <td>Total Averaged Power</td>
+                <td>@Model.GetLogic().CurrentState.ActualAveragePower</td>
+            </tr>
+            <tr>
+                <td>Output state</td>
+                <td>@Model.GetLogic().CurrentState.ActualOutputState</td>
+            </tr>
+        </table>
+
+        @* <div id="curve_chart" style="width: 900px; height: 500px"></div> *@
+
     </div>
 </div>
