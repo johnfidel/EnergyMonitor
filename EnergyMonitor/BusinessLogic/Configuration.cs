@@ -2,8 +2,10 @@ using System.Net.Sockets;
 using System.IO;
 using EnergyMonitor.Utils;
 
-namespace EnergyMonitor.BusinessLogic {
-  public class Configuration : Serializable {
+namespace EnergyMonitor.BusinessLogic
+{
+  public class Configuration : Serializable
+  {
     private const string CONFIG_FILE_NAME = "config.json";
 
     private double DefaultOffThreshold = 350;
@@ -17,20 +19,24 @@ namespace EnergyMonitor.BusinessLogic {
     public int AverageTimeSeconds { get; set; }
     public int LogicUpdateRateSeconds { get; set; }
 
-    public void Save() {
+    public void Save()
+    {
       File.WriteAllText(CONFIG_FILE_NAME, ToJson());
     }
 
-    public static Configuration Load() {
+    public static Configuration Load()
+    {
 
-      if (!File.Exists(CONFIG_FILE_NAME)) {
+      if (!File.Exists(CONFIG_FILE_NAME))
+      {
         new Configuration().Save();
       }
 
       return FromJson<Configuration>(File.ReadAllText(CONFIG_FILE_NAME));
     }
 
-    public Configuration() {
+    public Configuration()
+    {
       OffThreshold = DefaultOffThreshold;
       OnThreshold = DefaultOnThreshold;
       AverageTimeMinutes = DefaultAverageTime;
