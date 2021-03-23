@@ -18,14 +18,10 @@ namespace EnergyMonitor.BusinessLogic
 
     protected override void Run()
     {
-      // if (!File.Exists("data.csv")) {
-      //     File.WriteAllText("data.csv", $"Date/Time;{Shelly.Phase1.CsvHeader()};"+
-      //         $"{Shelly.Phase2.CsvHeader()};"+
-      //         $"{Shelly.Phase3.CsvHeader()};\n");
-      // }
-      // File.AppendAllText("data.csv", $"{DateTime.UtcNow};{Shelly.Phase1.ToCsvString()};"+
-      //     $"{Shelly.Phase2.ToCsvString()};"+
-      //     $"{Shelly.Phase3.ToCsvString()};\n");
+      if (!Shelly.Connected) {
+        Logging.Instance().Log(new LogMessage("No Shelly3EM Device connected"));
+        Terminate = true;
+      }
 
       Averager.Add(DateTime.Now, Shelly.ActualPowerTotal);
       var average = Averager.GetAverage();
@@ -42,7 +38,6 @@ namespace EnergyMonitor.BusinessLogic
         Shelly.SetRelayState(true);
       }
       CurrentState.Serialize();
-
     }
 
     public Logic() : base(100, true)
@@ -50,7 +45,7 @@ namespace EnergyMonitor.BusinessLogic
       Configuration = Configuration.Load();
       CurrentState = new State();
 
-      Shelly = new Shelly3EM();
+      Shelly = new Shelly3EM(Configuration.Shelly3EM.IpAddress);
       Averager = new AveragerOverTime(new TimeSpan(0, Configuration.AverageTimeMinutes, 0), false);
       Cycle = Configuration.LogicUpdateRateSeconds * 1000;
 
