@@ -25,7 +25,7 @@ namespace EnergyMonitor.Utils
 
     public void Log(LogMessage msg)
     {
-      File.WriteAllText(GetLogfileName(), msg.ToString());
+      File.AppendAllText(GetLogfileName(), msg.ToString() + "\n");
     }
   }
 }

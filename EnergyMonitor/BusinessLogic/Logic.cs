@@ -20,6 +20,7 @@ namespace EnergyMonitor.BusinessLogic
     protected override void Run()
     {
       Averager.Add(DateTime.Now, Shelly.ActualPowerTotal);
+      Logging.Instance().Log(new LogMessage($"Averager has {Averager.Count} values"));
       var average = Averager.GetAverage();
       CurrentState.ActualAveragePower = Math.Round(average, 3);
       CurrentState.CurrentPower = Math.Round(Shelly.ActualPowerTotal, 3);
@@ -35,6 +36,7 @@ namespace EnergyMonitor.BusinessLogic
         PhaseCPower = Shelly.Phase3.Power,
         TimeStamp = DateTime.Now
       });
+      Statistic.Save();
 
       if (average > Configuration.OffThreshold)
       {
@@ -56,7 +58,8 @@ namespace EnergyMonitor.BusinessLogic
       CurrentState = new State();
       Statistic = new Statistic();
       Shelly = new Shelly3EM();
-      Averager = new AveragerOverTime(new TimeSpan(0, Configuration.AverageTimeMinutes, 0), false);
+      Averager = new AveragerOverTime(new TimeSpan(0, Configuration.AverageTimeMinutes, Configuration.AverageTimeSeconds));
+      Averager.Start();
       Cycle = Configuration.LogicUpdateRateSeconds * 1000;
 
       Start();

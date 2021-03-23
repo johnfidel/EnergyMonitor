@@ -31,17 +31,13 @@ namespace ASPNET_MVC_ChartsDemo.Models
   }
 }
 
-namespace WebUI.Pages
-{
-  public class IndexModel : PageModel
-  {
-    public Logic GetLogic()
-    {
+namespace WebUI.Pages {
+  public class IndexModel : PageModel {
+    public Logic GetLogic() {
       return Program.Logic;
     }
 
-    public JsonResult GetAreaChartData()
-    {
+    public JsonResult GetAreaChartData() {
       List<string[]> data = new List<string[]>();
       data.Add(new[] { "name", "score" });
       data.Add(new[] { "xyz", "30" });
@@ -51,14 +47,11 @@ namespace WebUI.Pages
 
     private readonly ILogger<IndexModel> _logger;
 
-    public IndexModel(ILogger<IndexModel> logger)
-    {
+    public IndexModel(ILogger<IndexModel> logger) {
       _logger = logger;
     }
 
-    public void OnGet()
-    {
+    public void OnGet() {
     }
   }
-}
 }
