@@ -43,7 +43,7 @@ namespace EnergyMonitor.Devices.PowerMeter.Shelly
 
     private bool GetEmeterData(int index, out Emeter data)
     {
-      var request = WebRequest.Create($"http://192.168.2.78/emeter/{index}");
+      var request = WebRequest.Create($"http://{Ip}/emeter/{index}");
       var response = request.GetResponse();
       data = null;
 
@@ -62,7 +62,7 @@ namespace EnergyMonitor.Devices.PowerMeter.Shelly
       {
         RelayState = value;
         var switchValue = value ? "on" : "off";
-        var request = WebRequest.Create($"http://192.168.2.78/relay/0?turn={switchValue}");
+        var request = WebRequest.Create($"http://{Ip}/relay/0?turn={switchValue}");
         var response = request.GetResponse();
 
         Logging.Instance().Log(new LogMessage($"Switch Relay {switchValue}"));
