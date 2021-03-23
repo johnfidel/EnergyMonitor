@@ -19,6 +19,12 @@ namespace EnergyMonitor.BusinessLogic
 
     protected override void Run()
     {
+      if (!Shelly.Connected)
+      {
+        Logging.Instance().Log(new LogMessage("Could not connect to Shelly"));
+        Terminate = true;
+      }
+
       Averager.Add(DateTime.Now, Shelly.ActualPowerTotal);
       Logging.Instance().Log(new LogMessage($"Averager has {Averager.Count} values"));
       var average = Averager.GetAverage();

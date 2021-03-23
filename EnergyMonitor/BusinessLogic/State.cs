@@ -6,7 +6,7 @@ namespace EnergyMonitor.BusinessLogic
 {
   public class State : Serializable
   {
-    private string FILENAME = "state.info";
+    public const string FILENAME = "state.info";
 
     public enum OutputState
     {

@@ -20,12 +20,20 @@ namespace EnergyMonitor.Utils
       var data = new String('a', 32);
       byte[] buffer = Encoding.ASCII.GetBytes(data);
       int timeout = 120;
-      PingReply reply = pingSender.Send(IPAddress.Parse(ip), timeout, buffer, options);
-      if (reply.Status == IPStatus.Success)
+
+      try
       {
-        return true;
+        PingReply reply = pingSender.Send(IPAddress.Parse(ip), timeout, buffer, options);
+        if (reply.Status == IPStatus.Success)
+        {
+          return true;
+        }
+        return false;
       }
-      return false;
+      catch
+      {
+        return false;
+      }
     }
   }
 }

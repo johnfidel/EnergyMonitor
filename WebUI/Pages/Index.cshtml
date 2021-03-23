@@ -4,7 +4,7 @@
     ViewData["Title"] = "Home page";
 }
 
-<meta http-equiv="refresh" content="@Model.GetLogic().Configuration.LogicUpdateRateSeconds">
+<meta http-equiv="refresh" content="@Model.GetConfiguration().LogicUpdateRateSeconds">
 
 <head>
 </head>
@@ -19,27 +19,27 @@
             </tr>
             <tr>
                 <td>Phase A</td>
-                <td>@Model.GetLogic().CurrentState.CurrentPhaseAPower</td>
+                <td>@Model.GetState().CurrentPhaseAPower</td>
             </tr>
             <tr>
                 <td>Phase B</td>
-                <td>@Model.GetLogic().CurrentState.CurrentPhaseBPower</td>
+                <td>@Model.GetState().CurrentPhaseBPower</td>
             </tr>
             <tr>
                 <td>Phase C</td>
-                <td>@Model.GetLogic().CurrentState.CurrentPhaseCPower</td>
+                <td>@Model.GetState().CurrentPhaseCPower</td>
             </tr>
             <tr>
                 <td>Total Power</td>
-                <td>@Model.GetLogic().CurrentState.CurrentPower</td>
+                <td>@Model.GetState().CurrentPower</td>
             </tr>
             <tr>
                 <td>Total Averaged Power</td>
-                <td>@Model.GetLogic().CurrentState.ActualAveragePower</td>
+                <td>@Model.GetState().ActualAveragePower</td>
             </tr>
             <tr>
                 <td>Output state</td>
-                <td>@Model.GetLogic().CurrentState.ActualOutputState</td>
+                <td>@Model.GetState().ActualOutputState</td>
             </tr>
         </table>
     </div>

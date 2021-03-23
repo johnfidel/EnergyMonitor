@@ -1,48 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using System.IO;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using EnergyMonitor.BusinessLogic;
-using System.Runtime.Serialization;
-using ASPNET_MVC_ChartsDemo.Models;
-
-namespace ASPNET_MVC_ChartsDemo.Models
-{
-  //DataContract for Serializing Data - required to serve in JSON format
-  [DataContract]
-  public class DataPoint
-  {
-    public DataPoint(string label, double y)
-    {
-      this.Label = label;
-      this.Y = y;
-    }
-
-    //Explicitly setting the name to be used while serializing to JSON.
-    [DataMember(Name = "label")]
-    public string Label = "";
-
-    //Explicitly setting the name to be used while serializing to JSON.
-    [DataMember(Name = "y")]
-    public Nullable<double> Y = null;
-  }
-}
+using EnergyMonitor.Utils;
 
 namespace WebUI.Pages {
   public class IndexModel : PageModel {
-    public Logic GetLogic() {
-      return Program.Logic;
+    public State GetState() {
+      return Serializable.FromJson<State>(System.IO.File.ReadAllText(State.FILENAME));
     }
 
-    public JsonResult GetAreaChartData() {
-      List<string[]> data = new List<string[]>();
-      data.Add(new[] { "name", "score" });
-      data.Add(new[] { "xyz", "30" });
-      data.Add(new[] { "aaa", "135", });
-      return new JsonResult(data);
+    public Configuration GetConfiguration() {
+      return Serializable.FromJson<Configuration>(System.IO.File.ReadAllText(Configuration.CONFIG_FILE_NAME));
     }
 
     private readonly ILogger<IndexModel> _logger;

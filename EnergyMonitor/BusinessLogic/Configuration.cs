@@ -12,7 +12,7 @@ namespace EnergyMonitor.BusinessLogic
       public string IpAddress { get; set; }
     }
 
-    private const string CONFIG_FILE_NAME = "config.json";
+    public const string CONFIG_FILE_NAME = "config.json";
 
     private double DefaultOffThreshold = 350;
     private double DefaultOnThreshold = -250;
