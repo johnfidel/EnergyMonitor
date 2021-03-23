@@ -24,6 +24,7 @@ namespace EnergyMonitor.BusinessLogic
     public double OffThreshold { get; set; }
     public double OnThreshold { get; set; }
     public int AverageTimeMinutes { get; set; }
+    public int AverageTimeSeconds { get; set; }
     public int LogicUpdateRateSeconds { get; set; }
     public NetworkDevice Shelly3EM { get; set; }
 
@@ -48,6 +49,7 @@ namespace EnergyMonitor.BusinessLogic
       OffThreshold = DefaultOffThreshold;
       OnThreshold = DefaultOnThreshold;
       AverageTimeMinutes = DefaultAverageTime;
+      AverageTimeSeconds = 0;
       LogicUpdateRateSeconds = DefaultLogicUpdateRate;
       Shelly3EM = new NetworkDevice
       {

@@ -4,13 +4,43 @@
     ViewData["Title"] = "Home page";
 }
 
-<meta http-equiv="refresh" content="2">
+<meta http-equiv="refresh" content="@Model.GetLogic().Configuration.LogicUpdateRateSeconds">
+
+<head>
+</head>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <div>
-        <p>Average Power: @Model.GetLogic().CurrentState.ActualAveragePower</p>
-        <p>Output State: @Model.GetLogic().CurrentState.ActualOutputState</p>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Phase A</td>
+                <td>@Model.GetLogic().CurrentState.CurrentPhaseAPower</td>
+            </tr>
+            <tr>
+                <td>Phase B</td>
+                <td>@Model.GetLogic().CurrentState.CurrentPhaseBPower</td>
+            </tr>
+            <tr>
+                <td>Phase C</td>
+                <td>@Model.GetLogic().CurrentState.CurrentPhaseCPower</td>
+            </tr>
+            <tr>
+                <td>Total Power</td>
+                <td>@Model.GetLogic().CurrentState.CurrentPower</td>
+            </tr>
+            <tr>
+                <td>Total Averaged Power</td>
+                <td>@Model.GetLogic().CurrentState.ActualAveragePower</td>
+            </tr>
+            <tr>
+                <td>Output state</td>
+                <td>@Model.GetLogic().CurrentState.ActualOutputState</td>
+            </tr>
+        </table>
     </div>
 </div>

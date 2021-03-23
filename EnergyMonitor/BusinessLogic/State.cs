@@ -16,11 +16,17 @@ namespace EnergyMonitor.BusinessLogic
     }
 
     public double ActualAveragePower { get; set; }
-    
-    [JsonConverter(typeof(StringEnumConverter))]    
+    public double CurrentPower { get; set; }
+
+    public double CurrentPhaseAPower { get; set; }
+    public double CurrentPhaseBPower { get; set; }
+    public double CurrentPhaseCPower { get; set; }
+
+    [JsonConverter(typeof(StringEnumConverter))]
     public OutputState ActualOutputState { get; set; }
 
-    public State() {
+    public State()
+    {
       FileName = FILENAME;
     }
   }

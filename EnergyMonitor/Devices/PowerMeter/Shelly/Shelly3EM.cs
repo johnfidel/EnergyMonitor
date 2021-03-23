@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.Tracing;
+using System.Diagnostics.Tracing;
 using System.Text;
 using System;
 using System.Net;
@@ -62,7 +62,7 @@ namespace EnergyMonitor.Devices.PowerMeter.Shelly
       {
         RelayState = value;
         var switchValue = value ? "on" : "off";
-        var request = WebRequest.Create($"http://192.168.2.78//relay/0?turn={switchValue}");
+        var request = WebRequest.Create($"http://192.168.2.78/relay/0?turn={switchValue}");
         var response = request.GetResponse();
 
         Logging.Instance().Log(new LogMessage($"Switch Relay {switchValue}"));
