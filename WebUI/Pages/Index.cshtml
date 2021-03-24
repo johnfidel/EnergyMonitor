@@ -1,0 +1,46 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<meta http-equiv="refresh" content="@Model.GetConfiguration().LogicUpdateRateSeconds">
+
+<head>
+</head>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <div>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Phase A</td>
+                <td>@Model.GetState().CurrentPhaseAPower</td>
+            </tr>
+            <tr>
+                <td>Phase B</td>
+                <td>@Model.GetState().CurrentPhaseBPower</td>
+            </tr>
+            <tr>
+                <td>Phase C</td>
+                <td>@Model.GetState().CurrentPhaseCPower</td>
+            </tr>
+            <tr>
+                <td>Total Power</td>
+                <td>@Model.GetState().CurrentPower</td>
+            </tr>
+            <tr>
+                <td>Total Averaged Power</td>
+                <td>@Model.GetState().ActualAveragePower</td>
+            </tr>
+            <tr>
+                <td>Output state</td>
+                <td>@Model.GetState().ActualOutputState</td>
+            </tr>
+        </table>
+    </div>
+</div>

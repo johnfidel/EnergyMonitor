@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,7 +26,9 @@ namespace EnergyMonitor.Utils
           }
         }
 
-        catch { }
+        catch (Exception e) { 
+          Logging.Instance().Log(new LogMessage($"Exception in {this.GetType().Name} {e.Message}"));
+        }
       }, CancellationToken.Token);
     }
 

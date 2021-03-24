@@ -5,6 +5,8 @@ SSH_TARGET=pi@$RASPBERRY_IP
 ABSOLUTE_TARGET_DIR=$SSH_TARGET:/$TARGET_DIR
 
 sshpass -p $SSH_PASS ssh $SSH_TARGET sudo service EnergyMonitor stop
-dotnet publish -r linux-arm
-scp -r EnergyMonitor/bin/Debug/net5.0/linux-arm/publish/* $ABSOLUTE_TARGET_DIR
+dotnet clean
+dotnet publish EnergyMonitor/EnergyMonitor.csproj -o output -r linux-arm
+dotnet publish WebUI/WebUI.csproj -o output -r linux-arm
+scp -r output/* $ABSOLUTE_TARGET_DIR
 sshpass -p $SSH_PASS ssh $SSH_TARGET sudo service EnergyMonitor start

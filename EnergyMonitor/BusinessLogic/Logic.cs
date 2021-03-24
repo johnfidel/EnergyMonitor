@@ -13,23 +13,36 @@ namespace EnergyMonitor.BusinessLogic
 
     private Shelly3EM Shelly { get; set; }
     private AveragerOverTime Averager { get; set; }
-    private Configuration Configuration { get; set; }
-    private State CurrentState { get; set; }
+    public Configuration Configuration { get; private set; }
+    public Statistic Statistic { get; private set; }
+    public State CurrentState { get; private set; }
 
     protected override void Run()
     {
-      // if (!File.Exists("data.csv")) {
-      //     File.WriteAllText("data.csv", $"Date/Time;{Shelly.Phase1.CsvHeader()};"+
-      //         $"{Shelly.Phase2.CsvHeader()};"+
-      //         $"{Shelly.Phase3.CsvHeader()};\n");
-      // }
-      // File.AppendAllText("data.csv", $"{DateTime.UtcNow};{Shelly.Phase1.ToCsvString()};"+
-      //     $"{Shelly.Phase2.ToCsvString()};"+
-      //     $"{Shelly.Phase3.ToCsvString()};\n");
+      if (!Shelly.Connected)
+      {
+        Logging.Instance().Log(new LogMessage("Could not connect to Shelly"));
+        Terminate = true;
+      }
 
       Averager.Add(DateTime.Now, Shelly.ActualPowerTotal);
+      Logging.Instance().Log(new LogMessage($"Averager has {Averager.Count} values"));
       var average = Averager.GetAverage();
-      CurrentState.ActualAveragePower = average;
+      CurrentState.ActualAveragePower = Math.Round(average, 3);
+      CurrentState.CurrentPower = Math.Round(Shelly.ActualPowerTotal, 3);
+      CurrentState.CurrentPhaseAPower = Math.Round(Shelly.Phase1.Power, 3);
+      CurrentState.CurrentPhaseBPower = Math.Round(Shelly.Phase2.Power, 3);
+      CurrentState.CurrentPhaseCPower = Math.Round(Shelly.Phase3.Power, 3);
+
+      Statistic.Add(new Entry
+      {
+        CurrentPower = Shelly.ActualPowerTotal,
+        PhaseAPower = Shelly.Phase1.Power,
+        PhaseBPower = Shelly.Phase2.Power,
+        PhaseCPower = Shelly.Phase3.Power,
+        TimeStamp = DateTime.Now
+      });
+      Statistic.Save();
 
       if (average > Configuration.OffThreshold)
       {
@@ -42,16 +55,16 @@ namespace EnergyMonitor.BusinessLogic
         Shelly.SetRelayState(true);
       }
       CurrentState.Serialize();
-
     }
 
     public Logic() : base(100, true)
     {
       Configuration = Configuration.Load();
       CurrentState = new State();
-
-      Shelly = new Shelly3EM();
-      Averager = new AveragerOverTime(new TimeSpan(0, Configuration.AverageTimeMinutes, 0), false);
+      Statistic = new Statistic();
+      Shelly = new Shelly3EM(Configuration.Shelly3EM.IpAddress);
+      Averager = new AveragerOverTime(new TimeSpan(0, Configuration.AverageTimeMinutes, Configuration.AverageTimeSeconds));
+      Averager.Start();
       Cycle = Configuration.LogicUpdateRateSeconds * 1000;
 
       Start();
