@@ -1,11 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnergyMonitor", "EnergyMonitor\EnergyMonitor.csproj", "{76256E47-8122-45A9-A2D4-4C522E94BE49}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnergyMonitor", "EnergyMonitor\EnergyMonitor.csproj", "{76256E47-8122-45A9-A2D4-4C522E94BE49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnergyMonitor_UnitTest", "EnergyMonitor_UnitTest\EnergyMonitor_UnitTest.csproj", "{D2465B3F-9344-4180-8BB8-150D156EA8DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnergyMonitor_UnitTest", "EnergyMonitor_UnitTest\EnergyMonitor_UnitTest.csproj", "{D2465B3F-9344-4180-8BB8-150D156EA8DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "WebUI\WebUI.csproj", "{C9AE682D-3ED7-4351-95E5-5BC79E98ABE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebUI", "WebUI\WebUI.csproj", "{C9AE682D-3ED7-4351-95E5-5BC79E98ABE1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F1BFB6CE-E685-4801-BEFA-529BD9B01CE3}"
+	ProjectSection(SolutionItems) = preProject
+		build.sh = build.sh
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,5 +32,11 @@ Global
 		{C9AE682D-3ED7-4351-95E5-5BC79E98ABE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9AE682D-3ED7-4351-95E5-5BC79E98ABE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9AE682D-3ED7-4351-95E5-5BC79E98ABE1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2B35770C-00CC-4589-BCC6-310CAF84A1C4}
 	EndGlobalSection
 EndGlobal
