@@ -6,10 +6,8 @@ using EnergyMonitor.Devices.PowerMeter.Shelly;
 using System;
 using System.IO;
 
-namespace EnergyMonitor.BusinessLogic
-{
-  public class Logic : TaskBase
-  {
+namespace EnergyMonitor.BusinessLogic {
+  public class Logic : TaskBase {
 
     private Shelly3EM Shelly { get; set; }
     private AveragerOverTime Averager { get; set; }
@@ -17,13 +15,14 @@ namespace EnergyMonitor.BusinessLogic
     public Statistic Statistic { get; private set; }
     public State CurrentState { get; private set; }
 
-    protected override void Run()
-    {
-      if (!Shelly.Connected)
-      {
+    protected override void Run() {
+      if (!Shelly.Connected) {
         Logging.Instance().Log(new LogMessage("Could not connect to Shelly"));
         Terminate = true;
       }
+
+      // reload configuration
+      Configuration = Serializable.FromJson<Configuration>(File.ReadAllText(Configuration.CONFIG_FILE_NAME));
 
       Averager.Add(DateTime.Now, Shelly.ActualPowerTotal);
       Logging.Instance().Log(new LogMessage($"Averager has {Averager.Count} values"));
@@ -34,8 +33,7 @@ namespace EnergyMonitor.BusinessLogic
       CurrentState.CurrentPhaseBPower = Math.Round(Shelly.Phase2.Power, 3);
       CurrentState.CurrentPhaseCPower = Math.Round(Shelly.Phase3.Power, 3);
 
-      Statistic.Add(new Entry
-      {
+      Statistic.Add(new Entry {
         CurrentPower = Shelly.ActualPowerTotal,
         PhaseAPower = Shelly.Phase1.Power,
         PhaseBPower = Shelly.Phase2.Power,
@@ -44,21 +42,24 @@ namespace EnergyMonitor.BusinessLogic
       });
       Statistic.Save();
 
-      if (average > Configuration.OffThreshold)
-      {
-        CurrentState.ActualOutputState = State.OutputState.Off;
-        Shelly.SetRelayState(false);
+      if (DateTime.Now < Configuration.LockTimeStart || DateTime.Now > Configuration.LockTimeEnd) {
+        CurrentState.Locked = false;
+        if (average > Configuration.OffThreshold) {
+          CurrentState.ActualOutputState = State.OutputState.Off;
+          Shelly.SetRelayState(false);
+        }
+        else if (average < Configuration.OnThreshold) {
+          CurrentState.ActualOutputState = State.OutputState.On;
+          Shelly.SetRelayState(true);
+        }
       }
-      else if (average < Configuration.OnThreshold)
-      {
-        CurrentState.ActualOutputState = State.OutputState.On;
-        Shelly.SetRelayState(true);
+      else {
+        CurrentState.Locked = true;
       }
       CurrentState.Serialize();
     }
 
-    public Logic() : base(100, true)
-    {
+    public Logic() : base(100, true) {
       Configuration = Configuration.Load();
       CurrentState = new State();
       Statistic = new Statistic();

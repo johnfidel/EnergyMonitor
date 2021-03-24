@@ -2,5 +2,11 @@
   "OffThreshold": 350.0,
   "OnThreshold": -250.0,
   "AverageTimeMinutes": 2,
-  "LogicUpdateRateSeconds": 5
+  "AverageTimeSeconds": 0,
+  "LogicUpdateRateSeconds": 5,
+  "Shelly3EM": {
+    "IpAddress": "192.168.2.78"
+  },
+  "LockTimeStart": "2021-03-24T22:00:00",
+  "LockTimeEnd": "2021-03-24T23:00:00"
 }

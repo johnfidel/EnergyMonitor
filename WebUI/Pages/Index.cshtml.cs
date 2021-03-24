@@ -4,8 +4,18 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using EnergyMonitor.BusinessLogic;
 using EnergyMonitor.Utils;
+using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace WebUI.Pages {
+
+  public class ConfigurationModel {
+    [BindProperty]
+    public DateTime LockTimeStart { get; set; }
+    [BindProperty]
+    public DateTime LockTimeEnd { get; set; }
+  }
+
   public class IndexModel : PageModel {
     public State GetState() {
       return Serializable.FromJson<State>(System.IO.File.ReadAllText(State.FILENAME));
@@ -22,6 +32,17 @@ namespace WebUI.Pages {
     }
 
     public void OnGet() {
+    }
+
+    public void OnPostSave(ConfigurationModel config) {
+      var c = GetConfiguration();
+      if (config.LockTimeStart != new DateTime()) {
+        c.LockTimeStart = config.LockTimeStart;
+      }
+      if (config.LockTimeEnd != new DateTime()) {
+        c.LockTimeEnd = config.LockTimeEnd;
+      }
+      c.Save();
     }
   }
 }

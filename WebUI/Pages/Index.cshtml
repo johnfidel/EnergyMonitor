@@ -1,7 +1,8 @@
 ﻿@page
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+  ViewData["Title"] = "Home page";
 }
 
 <meta http-equiv="refresh" content="@Model.GetConfiguration().LogicUpdateRateSeconds">
@@ -10,37 +11,68 @@
 </head>
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <div>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Value</th>
-            </tr>
-            <tr>
-                <td>Phase A</td>
-                <td>@Model.GetState().CurrentPhaseAPower</td>
-            </tr>
-            <tr>
-                <td>Phase B</td>
-                <td>@Model.GetState().CurrentPhaseBPower</td>
-            </tr>
-            <tr>
-                <td>Phase C</td>
-                <td>@Model.GetState().CurrentPhaseCPower</td>
-            </tr>
-            <tr>
-                <td>Total Power</td>
-                <td>@Model.GetState().CurrentPower</td>
-            </tr>
-            <tr>
-                <td>Total Averaged Power</td>
-                <td>@Model.GetState().ActualAveragePower</td>
-            </tr>
-            <tr>
-                <td>Output state</td>
-                <td>@Model.GetState().ActualOutputState</td>
-            </tr>
-        </table>
-    </div>
+  <h1 class="display-4">Welcome</h1>
+  <div id="dynamicData">
+
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td>Phase A</td>
+        <td>@Model.GetState().CurrentPhaseAPower</td>
+      </tr>
+      <tr>
+        <td>Phase B</td>
+        <td>@Model.GetState().CurrentPhaseBPower</td>
+      </tr>
+      <tr>
+        <td>Phase C</td>
+        <td>@Model.GetState().CurrentPhaseCPower</td>
+      </tr>
+      <tr>
+        <td>Total Power</td>
+        <td>@Model.GetState().CurrentPower</td>
+      </tr>
+      <tr>
+        <td>Total Averaged Power</td>
+        <td>@Model.GetState().ActualAveragePower</td>
+      </tr>
+      <tr>
+        <td>Output state</td>
+        <td>@Model.GetState().ActualOutputState</td>
+      </tr><tr>
+        <td>Locked</td>
+        <td>@Model.GetState().Locked</td>
+      </tr>
+    </table>
+
+  </div>
+  <div>
+
+    <form method="post">
+      <table>
+        <tr>
+          <th>Parameter</th>
+          <th>Actual</th>
+          <th>New</th>
+        </tr>
+        <tr>
+          <td>Lock time start</td>
+          <td>@Model.GetConfiguration().LockTimeStart</td>
+          <td><input type="time" id="txtLockTimeStart" name="LockTimeStart" /></td>
+        </tr>
+        <tr>
+          <td>Lock time end</td>
+          <td>@Model.GetConfiguration().LockTimeEnd</td>
+          <td><input type="time" id="txtLockTimeEnd" name="LockTimeEnd" /></td>
+        </tr>
+      </table>
+
+      <div>
+        <input type="submit" value="Save" asp-page-handler="Save" />
+      </div>
+    </form>
+  </div>
 </div>

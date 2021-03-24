@@ -20,13 +20,14 @@ namespace EnergyMonitor.BusinessLogic
     private int DefaultLogicUpdateRate = 5;   // in seconds;
     private string DefaultShellyIp = "192.168.2.78";
 
-
     public double OffThreshold { get; set; }
     public double OnThreshold { get; set; }
     public int AverageTimeMinutes { get; set; }
     public int AverageTimeSeconds { get; set; }
     public int LogicUpdateRateSeconds { get; set; }
     public NetworkDevice Shelly3EM { get; set; }
+    public DateTime LockTimeStart { get; set; }
+    public DateTime LockTimeEnd { get; set; }
 
     public void Save()
     {
