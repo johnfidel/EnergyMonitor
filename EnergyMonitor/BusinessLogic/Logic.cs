@@ -11,9 +11,35 @@ namespace EnergyMonitor.BusinessLogic {
 
     private Shelly3EM Shelly { get; set; }
     private AveragerOverTime Averager { get; set; }
-    public Configuration Configuration { get; private set; }
+
+    protected virtual DateTime TimeSource { get => DateTime.Now; }
+
+    public Configuration Configuration { get; protected set; }
     public Statistic Statistic { get; private set; }
     public State CurrentState { get; private set; }
+
+    private bool LockingTimeRangeSet() {
+      return (Configuration.LockTimeStart != new DateTime() && Configuration.LockTimeEnd != new DateTime());
+    }
+
+    protected bool IsLocked() {
+
+      if (LockingTimeRangeSet() &&
+        (TimeSource >= Configuration.LockTimeStart && TimeSource <= Configuration.LockTimeEnd)) {
+        return true;
+      }
+      return false;
+    }
+
+    protected bool IsLockedConsiderSwitchOffDelay() {
+      if (LockingTimeRangeSet() &&
+        (TimeSource + new TimeSpan(0, Configuration.ForceSwitchOffDelayMinutes, 0) > Configuration.LockTimeStart) &&
+        (TimeSource < Configuration.LockTimeEnd) || 
+        IsLocked()) {
+        return true;
+      }
+      return false;
+    }
 
     protected override void Run() {
       if (!Shelly.Connected) {
@@ -42,7 +68,7 @@ namespace EnergyMonitor.BusinessLogic {
       });
       Statistic.Save();
 
-      if (DateTime.Now < Configuration.LockTimeStart || DateTime.Now > Configuration.LockTimeEnd) {
+      if (!IsLockedConsiderSwitchOffDelay()) {
         CurrentState.Locked = false;
         if (average > Configuration.OffThreshold) {
           CurrentState.ActualOutputState = State.OutputState.Off;
@@ -55,11 +81,12 @@ namespace EnergyMonitor.BusinessLogic {
       }
       else {
         CurrentState.Locked = true;
+        Shelly.SetRelayState(false);
       }
       CurrentState.Serialize();
     }
 
-    public Logic() : base(100, true) {
+    protected Logic(bool suspended) : base(100, suspended) {
       Configuration = Configuration.Load();
       CurrentState = new State();
       Statistic = new Statistic();
@@ -68,7 +95,9 @@ namespace EnergyMonitor.BusinessLogic {
       Averager.Start();
       Cycle = Configuration.LogicUpdateRateSeconds * 1000;
 
-      Start();
+      if (!suspended) { Start(); }
     }
+
+    public Logic() : this(false) { }
   }
 }

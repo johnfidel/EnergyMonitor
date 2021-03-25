@@ -19,6 +19,10 @@ namespace EnergyMonitor.BusinessLogic
     private int DefaultAverageTime = 2;       // in minutes
     private int DefaultLogicUpdateRate = 5;   // in seconds;
     private string DefaultShellyIp = "192.168.2.78";
+    /// <summary>
+    /// The timeout delay WP has to runout after force command is removed
+    /// </summary>
+    private int DefaultForceSwitchOffDelayMinutes = 20; //minutes
 
     public double OffThreshold { get; set; }
     public double OnThreshold { get; set; }
@@ -28,6 +32,7 @@ namespace EnergyMonitor.BusinessLogic
     public NetworkDevice Shelly3EM { get; set; }
     public DateTime LockTimeStart { get; set; }
     public DateTime LockTimeEnd { get; set; }
+    public int ForceSwitchOffDelayMinutes { get; set; }
 
     public void Save()
     {
@@ -56,6 +61,7 @@ namespace EnergyMonitor.BusinessLogic
       {
         IpAddress = DefaultShellyIp
       };
+      ForceSwitchOffDelayMinutes = DefaultForceSwitchOffDelayMinutes;
     }
   }
 }
