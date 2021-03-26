@@ -84,20 +84,6 @@ namespace EnergyMonitor_UnitTest.Utils {
         // 5 5 5 5 1 = 21 => avg = 4.2
         Assert.AreEqual(4.2, Avg.GetAverage());
       }
-
-      [TestMethod]
-      public void GetAverage_Real() {
-        var avg = new AveragerOverTime(new TimeSpan(0, 0, 5));
-        avg.Start();
-        var time = DateTime.Now;
-        avg.Add(time, 5);
-        avg.Add(time.AddSeconds(1), 5);
-        avg.Add(time.AddSeconds(2), 5);
-        Assert.AreEqual(5, avg.GetAverage());
-        avg.Add(time.AddSeconds(10), 1);
-        Thread.Sleep(8000);
-        Assert.AreEqual(1, avg.GetAverage());
-      }
     }
   }
 }

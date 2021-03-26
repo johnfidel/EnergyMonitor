@@ -2,15 +2,12 @@ using System;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace EnergyMonitor.Utils
-{
-  public class Serializable
-  {
+namespace EnergyMonitor.Utils {
+  public class Serializable {
     [JsonIgnore]
     public string FileName { get; protected set; }
 
-    public string ToJson()
-    {
+    public string ToJson() {
       return JsonConvert.SerializeObject(this, Formatting.Indented);
     }
 
@@ -23,9 +20,16 @@ namespace EnergyMonitor.Utils
     }
 
     public static T FromJson<T>(string json)
-    where T : new()
-    {
+    where T : new() {
       return JsonConvert.DeserializeObject<T>(json);
+    }
+
+    public static T FromFile<T>(string path)
+      where T : new() {
+      if (File.Exists(path)) {
+        return FromJson<T>(File.ReadAllText(path));
+      }
+      return new T();
     }
   }
 }

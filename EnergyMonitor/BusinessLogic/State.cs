@@ -1,19 +1,13 @@
 using System.Text.Json.Serialization;
 using EnergyMonitor.Utils;
 using Newtonsoft.Json.Converters;
+using static EnergyMonitor.Devices.PowerMeter.Shelly.Shelly3EM;
 
 namespace EnergyMonitor.BusinessLogic
 {
   public class State : Serializable
   {
     public const string FILENAME = "state.info";
-
-    public enum OutputState
-    {
-      Unknown = 0,
-      On = 1,
-      Off = 2,
-    }
 
     public double ActualAveragePower { get; set; }
     public double CurrentPower { get; set; }
