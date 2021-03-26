@@ -10,7 +10,6 @@ namespace EnergyMonitor.Devices.PowerMeter {
     Phase Phase2 { get; }
     Phase Phase3 { get; }
     OutputState RelayState { get; }
-
     string PrintCurrentValues();
     void SetRelayState(OutputState value);
   }

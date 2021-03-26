@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace EnergyMonitor.Devices.PowerMeter {
   class NullPowermeter : IPowermeter {
-    public double ActualPowerTotal => throw new NotImplementedException();
+    public double ActualPowerTotal => 0;
 
-    public bool Connected => throw new NotImplementedException();
+    public bool Connected => false;
 
-    public string Ip => throw new NotImplementedException();
+    public string Ip => "";
 
     public Phase Phase1 => new Phase();
 

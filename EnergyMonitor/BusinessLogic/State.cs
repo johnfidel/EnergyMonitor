@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
+using EnergyMonitor.Types;
 using EnergyMonitor.Utils;
 using Newtonsoft.Json.Converters;
-using static EnergyMonitor.Devices.PowerMeter.Shelly.Shelly3EM;
 
 namespace EnergyMonitor.BusinessLogic
 {

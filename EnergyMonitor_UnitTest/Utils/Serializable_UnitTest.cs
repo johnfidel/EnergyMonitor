@@ -1,4 +1,5 @@
 using EnergyMonitor.BusinessLogic;
+using EnergyMonitor.Types;
 using EnergyMonitor.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
@@ -47,20 +48,20 @@ namespace EnergyMonitor_UnitTest.Utils {
     public void FromFile_PassExistingFile_DoesCreateInstance() {
       var state = new State {
         ActualAveragePower = 666,
-        ActualOutputState = EnergyMonitor.Devices.PowerMeter.Shelly.Shelly3EM.OutputState.On
+        ActualOutputState = OutputState.On
       };
       state.Serialize();
 
       var instance = Serializable.FromFile<State>(State.FILENAME);
       Assert.AreEqual(666, instance.ActualAveragePower);
-      Assert.AreEqual(EnergyMonitor.Devices.PowerMeter.Shelly.Shelly3EM.OutputState.On, instance.ActualOutputState);
+      Assert.AreEqual(OutputState.On, instance.ActualOutputState);
     }
 
     [TestMethod]
     public void FromFile_FileInexistent_DoesCreateDefaultInstance() {
       var instance = Serializable.FromFile<State>(State.FILENAME);
       Assert.AreEqual(0, instance.ActualAveragePower);
-      Assert.AreEqual(EnergyMonitor.Devices.PowerMeter.Shelly.Shelly3EM.OutputState.Unknown, instance.ActualOutputState);
+      Assert.AreEqual(OutputState.Unknown, instance.ActualOutputState);
     }
   }
 
