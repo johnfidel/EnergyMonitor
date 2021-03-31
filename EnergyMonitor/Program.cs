@@ -13,7 +13,8 @@ namespace EnergyMonitor
     static int Main(string[] args)
     {
 
-      var logic = new Logic();
+      var logic = new Logic(true);
+      logic.Start();
       Thread.Sleep(100);
       while (logic.Status == System.Threading.Tasks.TaskStatus.Running) { Thread.Sleep(100); }
 

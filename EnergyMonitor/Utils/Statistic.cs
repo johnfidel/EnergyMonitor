@@ -9,6 +9,7 @@ namespace EnergyMonitor.Utils
   {
     public DateTime TimeStamp { get; set; }
     public double CurrentPower { get; set; }
+    public double CurrentAveragePower { get; set; }
     public double PhaseAPower { get; set; }
     public double PhaseBPower { get; set; }
     public double PhaseCPower { get; set; }

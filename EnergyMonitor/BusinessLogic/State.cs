@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using EnergyMonitor.Types;
 using EnergyMonitor.Utils;
 using Newtonsoft.Json.Converters;
 
@@ -7,13 +8,6 @@ namespace EnergyMonitor.BusinessLogic
   public class State : Serializable
   {
     public const string FILENAME = "state.info";
-
-    public enum OutputState
-    {
-      Unknown = 0,
-      On = 1,
-      Off = 2,
-    }
 
     public double ActualAveragePower { get; set; }
     public double CurrentPower { get; set; }
