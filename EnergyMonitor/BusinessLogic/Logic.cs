@@ -62,7 +62,6 @@ namespace EnergyMonitor.BusinessLogic {
         PhaseCPower = Powermeter.Phase3.Power,
         TimeStamp = DateTime.Now
       });
-      Statistic.Save();
     }
 
     protected override void Run() {
@@ -101,7 +100,7 @@ namespace EnergyMonitor.BusinessLogic {
     public Logic(bool suspended) : base(100, suspended) {
       Configuration = Configuration.Load();
       CurrentState = Serializable.FromFile<State>(State.FILENAME);
-      Statistic = new Statistic();
+      Statistic = new Statistic(false);
       Powermeter = PowermeterFactory.CreatePowermeter(PowermeterType.Shelly3EM, Configuration.Shelly3EM.IpAddress, Simulation.Simulate_Shelly3EM());
       Averager = new AveragerOverTime(new TimeSpan(0, Configuration.AverageTimeMinutes, Configuration.AverageTimeSeconds));
       Averager.Start();

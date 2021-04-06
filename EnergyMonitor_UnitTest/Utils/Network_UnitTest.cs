@@ -14,7 +14,7 @@ namespace EnergyMonitor_UnitTest.Utils
     public void Ping_LocalHost_DoesWork()
     {
       Assert.IsTrue(Network.Ping("127.0.0.1"));
-      Assert.IsFalse(Network.Ping("10.1.20.20"));
+      Assert.IsFalse(Network.Ping("10.100.20.20"));
     }
 
   }
