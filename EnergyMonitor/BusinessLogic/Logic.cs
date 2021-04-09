@@ -8,11 +8,13 @@ using System.IO;
 using static EnergyMonitor.Devices.PowerMeter.Shelly.Shelly3EM;
 using EnergyMonitor.Types;
 using EnergyMonitor.Devices.PowerMeter;
+using EnergyMonitor.Devices.PowerSwitch;
 
 namespace EnergyMonitor.BusinessLogic {
   public class Logic : TaskBase {
 
     private IPowermeter Powermeter { get; set; }
+    private IPowerSwitch PowerSwitch { get; set; }
     private AveragerOverTime Averager { get; set; }
 
     protected virtual DateTime TimeSource { get => DateTime.Now; }
@@ -51,6 +53,7 @@ namespace EnergyMonitor.BusinessLogic {
       CurrentState.CurrentPhaseAPower = Math.Round(Powermeter.Phase1.Power, 3);
       CurrentState.CurrentPhaseBPower = Math.Round(Powermeter.Phase2.Power, 3);
       CurrentState.CurrentPhaseCPower = Math.Round(Powermeter.Phase3.Power, 3);
+      CurrentState.SolarPower = Math.Round(PowerSwitch.Power, 3);
     }
 
     protected void AddStatisticEntry(double average) {
@@ -60,6 +63,7 @@ namespace EnergyMonitor.BusinessLogic {
         PhaseAPower = Powermeter.Phase1.Power,
         PhaseBPower = Powermeter.Phase2.Power,
         PhaseCPower = Powermeter.Phase3.Power,
+        SolarPower = PowerSwitch.Power,
         TimeStamp = DateTime.Now
       });
     }
@@ -67,6 +71,11 @@ namespace EnergyMonitor.BusinessLogic {
     protected override void Run() {
       if (!Powermeter.Connected) {
         Logging.Instance().Log(new LogMessage("Could not connect to Shelly"));
+        Terminate = true;
+      }
+
+      if (!Powermeter.Connected) {
+        Logging.Instance().Log(new LogMessage("Could not connect to Powermeter"));
         Terminate = true;
       }
 
@@ -101,7 +110,8 @@ namespace EnergyMonitor.BusinessLogic {
       Configuration = Configuration.Load();
       CurrentState = Serializable.FromFile<State>(State.FILENAME);
       Statistic = new Statistic(false);
-      Powermeter = PowermeterFactory.CreatePowermeter(PowermeterType.Shelly3EM, Configuration.Shelly3EM.IpAddress, Simulation.Simulate_Shelly3EM());
+      Powermeter = PowermeterFactory.CreatePowermeter(PowermeterType.Shelly3EM, Configuration.PowerMeter.IpAddress, Simulation.Simulate_PowerMeter());
+      PowerSwitch = PowerSwitchFactory.CreateDevice(PowerSwitchType.MyStrom, Configuration.PowerSwitch.IpAddress, Simulation.Simulate_PowerSwitch());
       Averager = new AveragerOverTime(new TimeSpan(0, Configuration.AverageTimeMinutes, Configuration.AverageTimeSeconds));
       Averager.Start();
       Cycle = Configuration.LogicUpdateRateSeconds * 1000;

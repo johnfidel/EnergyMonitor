@@ -6,6 +6,7 @@ using EnergyMonitor.BusinessLogic;
 using EnergyMonitor.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using EnergyMonitor.Types;
 
 namespace WebUI.Pages {
 
@@ -14,6 +15,10 @@ namespace WebUI.Pages {
     public DateTime LockTimeStart { get; set; }
     [BindProperty]
     public DateTime LockTimeEnd { get; set; }
+    [BindProperty]
+    public double OffThreshold { get; set; }
+    [BindProperty]
+    public double OnThreshold { get; set; }
   }
 
   public class IndexModel : PageModel {
@@ -42,6 +47,8 @@ namespace WebUI.Pages {
       if (config.LockTimeEnd != new DateTime()) {
         c.LockTimeEnd = config.LockTimeEnd;
       }
+      c.OffThreshold = config.OffThreshold;
+      c.OnThreshold = config.OnThreshold;
       c.Save();
     }
   }

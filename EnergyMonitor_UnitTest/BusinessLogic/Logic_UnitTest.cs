@@ -1,4 +1,5 @@
 using EnergyMonitor.BusinessLogic;
+using EnergyMonitor.Types;
 using EnergyMonitor.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

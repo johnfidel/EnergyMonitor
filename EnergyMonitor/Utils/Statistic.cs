@@ -15,6 +15,7 @@ namespace EnergyMonitor.Utils {
     public double PhaseAPower { get; set; }
     public double PhaseBPower { get; set; }
     public double PhaseCPower { get; set; }
+    public double SolarPower { get; set; }
   }
 
   public class Day : List<Entry> {
@@ -30,7 +31,7 @@ namespace EnergyMonitor.Utils {
         var builder = new StringBuilder();
 
         foreach (var entry in this) {
-          builder.AppendLine($"{entry.TimeStamp.ToString("yyyy.MM.dd hh:mm.ss")};{entry.CurrentPower};{entry.PhaseAPower};{entry.PhaseBPower};{entry.PhaseCPower};{entry.CurrentAveragePower}");
+          builder.AppendLine($"{entry.TimeStamp.ToString("yyyy.MM.dd hh:mm.ss")};{entry.CurrentPower};{entry.PhaseAPower};{entry.PhaseBPower};{entry.PhaseCPower};{entry.CurrentAveragePower};{entry.SolarPower}");
         }
         File.WriteAllText(Path.Combine(rootDirectory, $"{Date.ToString("yyyyMMdd")}_statistic.csv"), builder.ToString());
 
@@ -40,17 +41,17 @@ namespace EnergyMonitor.Utils {
   }
 
   public class Statistic : ConcurrentBag<Entry>, IDisposable {
-    private DateTime CurrentDay { get; set; }
     private CancellationTokenSource Cancel { get; }
     private Task Worker { get; }
+    private object _syncObject;
 
     public Dictionary<DateTime, Day> Days { get; set; }
 
     public Statistic(bool noWorker) {
-      CurrentDay = DateTime.Now.Date;
       Days = new Dictionary<DateTime, Day>();
+      _syncObject = new object();
 
-      if (noWorker) {
+      if (!noWorker) {
         Cancel = new CancellationTokenSource();
         Worker = Task.Factory.StartNew(() => {
           while (!Cancel.IsCancellationRequested) {
@@ -72,7 +73,7 @@ namespace EnergyMonitor.Utils {
     }
 
     public void ReorderStatistic() {
-      lock (Worker) {
+      lock (_syncObject) {
         while (TryTake(out var item)) {
           if (!Days.TryGetValue(item.TimeStamp.Date, out var day)) {
             Days[item.TimeStamp.Date] = new Day();

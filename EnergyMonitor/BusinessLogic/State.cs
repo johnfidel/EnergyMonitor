@@ -15,6 +15,7 @@ namespace EnergyMonitor.BusinessLogic
     public double CurrentPhaseAPower { get; set; }
     public double CurrentPhaseBPower { get; set; }
     public double CurrentPhaseCPower { get; set; }
+    public double SolarPower { get; set; }
     public bool Locked { get; set; }
 
     [JsonConverter(typeof(StringEnumConverter))]

@@ -47,7 +47,7 @@ namespace EnergyMonitor_UnitTest.Utils {
       Assert.AreEqual(3, Stat.Days[new DateTime(2021, 3, 8)].Count);
 
       Stat.Save(TestContext.TestResultsDirectory);
-      Assert.AreEqual(5, Directory.GetFiles(TestContext.TestResultsDirectory, "*txt"));
+      Assert.AreEqual(5, Directory.GetFiles(TestContext.TestResultsDirectory, "*.csv").Length);
     }
   }
 }

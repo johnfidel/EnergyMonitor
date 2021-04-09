@@ -17,4 +17,8 @@
     <ProjectReference Include="..\EnergyMonitor\EnergyMonitor.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Devices\PowerSwitch\myStrom\" />
+  </ItemGroup>
+
 </Project>

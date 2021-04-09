@@ -11,8 +11,6 @@ using EnergyMonitor.Types;
 
 namespace EnergyMonitor.Devices.PowerMeter.Shelly {
   public class Shelly3EM : TaskBase, IPowermeter {
-
-
     public bool Connected { get => Network.Ping(Ip); }
     public string Ip { get; private set; }
     public Phase Phase1 { get; private set; }

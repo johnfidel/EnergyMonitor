@@ -15,14 +15,13 @@ namespace EnergyMonitor.Devices.PowerMeter {
           }
           else {
             return new Shelly.Shelly3EM(Ip);
-          }          
+          }
         }
 
         default: {
           return new NullPowermeter();
-          break;
         }
-      } 
+      }
     }
   }
 }

@@ -32,6 +32,10 @@
         <td>@Model.GetState().CurrentPhaseCPower</td>
       </tr>
       <tr>
+        <td>Solar Power</td>
+        <td>@Model.GetState().SolarPower</td>
+      </tr>
+      <tr>
         <td>Total Power</td>
         <td>@Model.GetState().CurrentPower</td>
       </tr>
@@ -42,7 +46,8 @@
       <tr>
         <td>Output state</td>
         <td>@Model.GetState().ActualOutputState</td>
-      </tr><tr>
+      </tr>
+      <tr>
         <td>Locked</td>
         <td>@Model.GetState().Locked</td>
       </tr>
@@ -61,12 +66,22 @@
         <tr>
           <td>Lock time start</td>
           <td>@Model.GetConfiguration().LockTimeStart</td>
-          <td><input type="time" id="txtLockTimeStart" name="LockTimeStart" /></td>
+          <td><input type="time" id="txtLockTimeStart" name="LockTimeStart" value="@Model.GetConfiguration().LockTimeStart" /></td>
         </tr>
         <tr>
           <td>Lock time end</td>
           <td>@Model.GetConfiguration().LockTimeEnd</td>
-          <td><input type="time" id="txtLockTimeEnd" name="LockTimeEnd" /></td>
+          <td><input type="time" id="txtLockTimeEnd" name="LockTimeEnd" value="@Model.GetConfiguration().LockTimeEnd" /></td>
+        </tr>
+        <tr>
+          <td>OffThreshold</td>
+          <td>@Model.GetConfiguration().OffThreshold</td>
+          <td><input type="number" id="txtOffThreshold" name="OffThreshold" value="@Model.GetConfiguration().OffThreshold" /></td>
+        </tr>
+        <tr>
+          <td>OnThreshold</td>
+          <td>@Model.GetConfiguration().OnThreshold</td>
+          <td><input type="number" id="txtOnThreshold" name="OnThreshold" value="@Model.GetConfiguration().OnThreshold" /></td>
         </tr>
       </table>
 
