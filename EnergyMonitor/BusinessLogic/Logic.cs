@@ -74,7 +74,7 @@ namespace EnergyMonitor.BusinessLogic {
         Terminate = true;
       }
 
-      if (!Powermeter.Connected) {
+      if (!PowerSwitch.Connected) {
         Logging.Instance().Log(new LogMessage("Could not connect to Powermeter"));
         Terminate = true;
       }
