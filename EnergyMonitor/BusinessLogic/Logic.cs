@@ -69,12 +69,12 @@ namespace EnergyMonitor.BusinessLogic {
     }
 
     protected override void Run() {
-      if (!Powermeter.Connected) {
+      if (!Powermeter?.Connected ?? true) {
         Logging.Instance().Log(new LogMessage("Could not connect to Shelly"));
         Terminate = true;
       }
 
-      if (!PowerSwitch.Connected) {
+      if (!PowerSwitch?.Connected ?? true) {
         Logging.Instance().Log(new LogMessage("Could not connect to Powermeter"));
         Terminate = true;
       }

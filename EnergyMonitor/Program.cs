@@ -5,13 +5,15 @@ using System.CommandLine.Invocation;
 using System.IO;
 using EnergyMonitor.BusinessLogic;
 using EnergyMonitor.Devices.PowerMeter.Shelly;
+using EnergyMonitor.Utils;
 
-namespace EnergyMonitor
-{
-  class Program
-  {
-    static int Main(string[] args)
-    {
+namespace EnergyMonitor {
+  class Program {
+    static int Main(string[] args) {
+      AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+      AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
+
+      Logging.Instance().Log(new LogMessage($"Start {AppDomain.CurrentDomain.FriendlyName}"));
 
       var logic = new Logic(true);
       logic.Start();
@@ -48,6 +50,14 @@ namespace EnergyMonitor
 
       // // Parse the incoming args and invoke the handler
       // return rootCommand.InvokeAsync(args).Result;
+    }
+
+    private static void CurrentDomain_FirstChanceException(object sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs e) {
+      Utils.Logging.Instance().Log(new Utils.LogMessage(e.Exception.Message + "\r\n" + e.Exception.StackTrace));
+    }
+
+    private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e) {
+      Utils.Logging.Instance().Log(new Utils.LogMessage(e.ToString() + "\r\n"));
     }
   }
 }

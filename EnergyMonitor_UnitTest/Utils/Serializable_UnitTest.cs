@@ -63,6 +63,11 @@ namespace EnergyMonitor_UnitTest.Utils {
       Assert.AreEqual(0, instance.ActualAveragePower);
       Assert.AreEqual(OutputState.Unknown, instance.ActualOutputState);
     }
+
+    //[TestMethod]
+    public void Deserialize_PasInvalidJson_Does() {
+      var test = Serializable.FromJson<Dummy>("blabla");
+    }
   }
 
 }
