@@ -1,7 +1,5 @@
 ﻿using System.Threading;
 using System;
-using System.CommandLine;
-using System.CommandLine.Invocation;
 using System.IO;
 using EnergyMonitor.BusinessLogic;
 using EnergyMonitor.Devices.PowerMeter.Shelly;

@@ -25,6 +25,7 @@ namespace EnergyMonitor.Utils {
       AddRange(entries);
     }
     public Day() { Saved = false; }
+    public bool Condensated { get; set; }
 
     public void Save(string rootDirectory) {
       if (!Saved) {
@@ -44,6 +45,7 @@ namespace EnergyMonitor.Utils {
     private CancellationTokenSource Cancel { get; }
     private Task Worker { get; }
     private object _syncObject;
+    protected virtual DateTime TimeSource { get => DateTime.Now; }
 
     public Dictionary<DateTime, Day> Days { get; set; }
 
@@ -56,7 +58,7 @@ namespace EnergyMonitor.Utils {
         Worker = Task.Factory.StartNew(() => {
           while (!Cancel.IsCancellationRequested) {
             Thread.Sleep(1000);
-            ReorderStatistic();
+            SeparatePastDays();
           }
         }, Cancel.Token);
       }
@@ -72,13 +74,59 @@ namespace EnergyMonitor.Utils {
       Save(AppDomain.CurrentDomain.BaseDirectory);
     }
 
-    public void ReorderStatistic() {
+    public void SeparatePastDays() {
       lock (_syncObject) {
         while (TryTake(out var item)) {
-          if (!Days.TryGetValue(item.TimeStamp.Date, out var day)) {
-            Days[item.TimeStamp.Date] = new Day();
+          // only take items from yesterday
+          if (TimeSource.Date.AddDays(-1) >= item.TimeStamp.Date) {
+
+            if (!Days.TryGetValue(item.TimeStamp.Date, out var day)) {
+              Days[item.TimeStamp.Date] = new Day();
+            }
+            Days[item.TimeStamp.Date].Add(item);
           }
-          Days[item.TimeStamp.Date].Add(item);
+        }
+      }
+    }
+
+    public void CondensateDays() {
+      lock (_syncObject) {
+        List<Day> condensatedDays = new List<Day>();
+        DateTime last = new DateTime();
+        foreach (var day in Days) {
+          if (!day.Value.Condensated) {
+            var condensatedDay = new Day();
+            var condensatedEntry = new Entry();
+            foreach (var entry in day.Value) {
+
+              // save only one point per hour, integrate power over whole day
+              if (last != new DateTime()) {
+                var timeDiff = entry.TimeStamp - last;
+                // integrate time
+                condensatedEntry.TimeStamp = new DateTime(entry.TimeStamp.Year, entry.TimeStamp.Month, entry.TimeStamp.Day, entry.TimeStamp.Hour, 0, 0);
+                condensatedEntry.PhaseAPower += (entry.PhaseAPower * timeDiff.TotalSeconds);
+                condensatedEntry.PhaseBPower += (entry.PhaseBPower * timeDiff.TotalSeconds);
+                condensatedEntry.PhaseCPower += (entry.PhaseCPower * timeDiff.TotalSeconds);
+                condensatedEntry.SolarPower += (entry.SolarPower * timeDiff.TotalSeconds);
+                condensatedEntry.CurrentAveragePower += (entry.CurrentAveragePower * timeDiff.TotalSeconds);
+              }
+
+              if (entry.TimeStamp.Hour > last.Hour) {
+                condensatedDay.Add(entry);
+                condensatedEntry = new Entry();
+              }
+
+              last = entry.TimeStamp;
+            }
+            condensatedDay.Condensated = true;
+            condensatedDays.Add(condensatedDay);
+          }
+        }
+        Days.Clear();
+        
+        // add new days 
+        foreach (var day in condensatedDays) {
+          Days.TryAdd(day.Date, day);
         }
       }
     }
@@ -86,7 +134,7 @@ namespace EnergyMonitor.Utils {
     protected void Dispose(bool disposing) {
       Cancel.Cancel();
       Worker.Wait();
-      ReorderStatistic();
+      SeparatePastDays();
       Save();
     }
 
