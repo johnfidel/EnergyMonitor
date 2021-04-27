@@ -19,6 +19,10 @@ namespace WebUI.Pages {
     public double OffThreshold { get; set; }
     [BindProperty]
     public double OnThreshold { get; set; }
+    [BindProperty]
+    public int AverageTimeSeconds { get; set; }
+    [BindProperty]
+    public int AverageTimeMinutes { get; set; }
   }
 
   public class IndexModel : PageModel {
@@ -49,6 +53,8 @@ namespace WebUI.Pages {
       }
       c.OffThreshold = config.OffThreshold;
       c.OnThreshold = config.OnThreshold;
+      c.AverageTimeSeconds = config.AverageTimeSeconds;
+      c.AverageTimeMinutes = config.AverageTimeMinutes;
       c.Save();
     }
   }
