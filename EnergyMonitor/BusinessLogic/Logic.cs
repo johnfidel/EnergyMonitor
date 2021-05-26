@@ -53,7 +53,7 @@ namespace EnergyMonitor.BusinessLogic {
       CurrentState.CurrentPhaseAPower = Math.Round(Powermeter.Phase1.Power, 3);
       CurrentState.CurrentPhaseBPower = Math.Round(Powermeter.Phase2.Power, 3);
       CurrentState.CurrentPhaseCPower = Math.Round(Powermeter.Phase3.Power, 3);
-      CurrentState.SolarPower = Math.Round(PowerSwitch.Power, 3);
+      CurrentState.SolarPower = Math.Round(PowerSwitch?.Power ?? 0, 3);
     }
 
     protected void AddStatisticEntry(double average) {
@@ -63,7 +63,7 @@ namespace EnergyMonitor.BusinessLogic {
         PhaseAPower = Powermeter.Phase1.Power,
         PhaseBPower = Powermeter.Phase2.Power,
         PhaseCPower = Powermeter.Phase3.Power,
-        SolarPower = PowerSwitch.Power,
+        SolarPower = PowerSwitch?.Power ?? 0,
         TimeStamp = DateTime.Now
       });
     }
@@ -76,7 +76,6 @@ namespace EnergyMonitor.BusinessLogic {
 
       if (!PowerSwitch?.Connected ?? true) {
         Logging.Instance().Log(new LogMessage("Could not connect to Powermeter"));
-        Terminate = true;
       }
 
       // reload configuration
