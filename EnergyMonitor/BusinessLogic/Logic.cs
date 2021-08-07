@@ -22,6 +22,7 @@ namespace EnergyMonitor.BusinessLogic {
     public Configuration Configuration { get; protected set; }
     public Statistic Statistic { get; private set; }
     public State CurrentState { get; private set; }
+    public TcpServer TcpServer { get; set; }
 
     private bool LockingTimeRangeSet() {
       return (Configuration.LockTimeStart != new DateTime() && Configuration.LockTimeEnd != new DateTime());
@@ -30,7 +31,7 @@ namespace EnergyMonitor.BusinessLogic {
     protected bool IsLocked() {
 
       if (LockingTimeRangeSet() &&
-        (TimeSource.TimeOfDay >= Configuration.LockTimeStart.TimeOfDay && 
+        (TimeSource.TimeOfDay >= Configuration.LockTimeStart.TimeOfDay &&
         TimeSource.TimeOfDay <= Configuration.LockTimeEnd.TimeOfDay)) {
         return true;
       }
@@ -81,7 +82,7 @@ namespace EnergyMonitor.BusinessLogic {
       // reload configuration
       Configuration = Serializable.FromJson<Configuration>(File.ReadAllText(Configuration.CONFIG_FILE_NAME));
 
-      Averager.Add(DateTime.Now, Powermeter.ActualPowerTotal);      
+      Averager.Add(DateTime.Now, Powermeter.ActualPowerTotal);
       var average = Averager.GetAverage();
       MoveMeasuresToState(average);
 
@@ -103,6 +104,7 @@ namespace EnergyMonitor.BusinessLogic {
         Powermeter.SetRelayState(OutputState.Off);
       }
       CurrentState.Serialize();
+      TcpServer.SendToClients(CurrentState.ToJson());
     }
 
     public Logic(bool suspended) : base(100, suspended) {
@@ -114,6 +116,9 @@ namespace EnergyMonitor.BusinessLogic {
       Averager = new AveragerOverTime(new TimeSpan(0, Configuration.AverageTimeMinutes, Configuration.AverageTimeSeconds));
       Averager.Start();
       Cycle = Configuration.LogicUpdateRateSeconds * 1000;
+
+      TcpServer = new TcpServer(Configuration.TcpServerPort);
+      TcpServer.Start();
 
       if (!suspended) { Start(); }
     }

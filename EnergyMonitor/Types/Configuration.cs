@@ -21,6 +21,7 @@ namespace EnergyMonitor.Types {
     /// The timeout delay WP has to runout after force command is removed
     /// </summary>
     private int DefaultForceSwitchOffDelayMinutes = 20; //minutes
+    private int DefaultTcpServerPort = 8888;
 
     public double OffThreshold { get; set; }
     public double OnThreshold { get; set; }
@@ -32,6 +33,7 @@ namespace EnergyMonitor.Types {
     public DateTime LockTimeStart { get; set; }
     public DateTime LockTimeEnd { get; set; }
     public int ForceSwitchOffDelayMinutes { get; set; }
+    public int TcpServerPort { get; set; }
 
     public void Save() {
       File.WriteAllText(CONFIG_FILE_NAME, ToJson());
@@ -61,6 +63,7 @@ namespace EnergyMonitor.Types {
         IpAddress = DefaultMyStromSwitchIp
       };
       ForceSwitchOffDelayMinutes = DefaultForceSwitchOffDelayMinutes;
+      TcpServerPort = DefaultTcpServerPort;
     }
   }
 }
