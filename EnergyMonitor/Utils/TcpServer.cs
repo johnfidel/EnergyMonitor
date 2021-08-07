@@ -38,12 +38,21 @@ namespace EnergyMonitor.Utils {
         else {
           client.Close();
           clientsToRemove.Add(client);
-        }        
+        }
       }
 
-      if (clientsToRemove.Any()) {        
+      if (clientsToRemove.Any()) {
         Clients.RemoveAll(c => clientsToRemove.Contains(c));
       }
+    }
+
+    protected override void Dispose(bool disposing) {
+      base.Dispose(disposing);
+
+      foreach (var client in Clients) {
+        client.Close();
+      }
+      Server.Stop();
     }
   }
 }

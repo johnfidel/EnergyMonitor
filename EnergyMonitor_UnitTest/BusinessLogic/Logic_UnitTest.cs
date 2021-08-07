@@ -31,6 +31,11 @@ namespace EnergyMonitor_UnitTest.Utils {
         };
       }
 
+      [TestCleanup]
+      public void TearDown() {
+        Logic.Dispose();
+      }
+
       [TestMethod]
       public void IsLocked_TimeSourceInLockedTimeRange_ReturnsTrue() {
         Logic.CurrentTime = new DateTime(1, 1, 1, 8, 30, 0, 0);
