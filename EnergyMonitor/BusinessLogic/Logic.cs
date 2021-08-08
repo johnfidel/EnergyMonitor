@@ -55,6 +55,7 @@ namespace EnergyMonitor.BusinessLogic {
       CurrentState.CurrentPhaseBPower = Math.Round(Powermeter.Phase2.Power, 3);
       CurrentState.CurrentPhaseCPower = Math.Round(Powermeter.Phase3.Power, 3);
       CurrentState.SolarPower = Math.Round(PowerSwitch?.Power ?? 0, 3);
+      CurrentState.LastMeasure = DateTime.UtcNow;
     }
 
     protected void AddStatisticEntry(double average) {
@@ -126,7 +127,7 @@ namespace EnergyMonitor.BusinessLogic {
     protected override void Dispose(bool disposing) {
       base.Dispose(disposing);
 
-      TcpServer.Dispose();      
+      TcpServer.Dispose();
       Statistic.Dispose();
     }
   }

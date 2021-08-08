@@ -26,10 +26,17 @@ namespace EnergyMonitor.Utils {
     }
 
     protected override void Run() {
-      Logging.Instance().Log(new LogMessage($"Wait for Tcp connection..."));
-      var client = Server.AcceptTcpClient();
-      Clients.Add(client);
-      Logging.Instance().Log(new LogMessage($"Accepted Tcp connection ({client.Client.RemoteEndPoint})"));
+      try {
+
+        Logging.Instance().Log(new LogMessage($"Wait for Tcp connection..."));
+        var client = Server.AcceptTcpClient();
+        Clients.Add(client);
+        Logging.Instance().Log(new LogMessage($"Accepted Tcp connection ({client.Client.RemoteEndPoint})"));
+
+      }
+      catch (Exception e) {
+        Logging.Instance().Log(new LogMessage($"Exception in Run() {e.Message}"));
+      }
     }
 
     public void SendToClients(string data) {
@@ -41,8 +48,8 @@ namespace EnergyMonitor.Utils {
           stream.Write(Encoding.ASCII.GetBytes(data));
         }
         else {
-          Logging.Instance().Log(new LogMessage($"Close Tcp connection ({client.Client.RemoteEndPoint})"));          
-          
+          Logging.Instance().Log(new LogMessage($"Close Tcp connection ({client.Client.RemoteEndPoint})"));
+
           client.Close();
           clientsToRemove.Add(client);
         }
