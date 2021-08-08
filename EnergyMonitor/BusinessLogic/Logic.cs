@@ -127,6 +127,7 @@ namespace EnergyMonitor.BusinessLogic {
       base.Dispose(disposing);
 
       TcpServer.Dispose();      
+      Statistic.Dispose();
     }
   }
 }
