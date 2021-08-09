@@ -41,15 +41,19 @@ namespace EnergyMonitor.Utils {
     }
   }
 
-  public class Statistic : ConcurrentBag<Entry>, IDisposable {
+  public class Statistic : Serializable, IDisposable {
+    public static readonly string FILENAME = "tempStatistic.json";
     private CancellationTokenSource Cancel { get; }
     private Task Worker { get; }
     private object _syncObject;
     protected virtual DateTime TimeSource { get => DateTime.Now; }
+    public List<Entry> Data { get; set; }
 
     public Dictionary<DateTime, Day> Days { get; set; }
 
     public Statistic(bool noWorker) {
+      FileName = FILENAME;
+      Data = new List<Entry>();
       Days = new Dictionary<DateTime, Day>();
       _syncObject = new object();
 
@@ -59,6 +63,7 @@ namespace EnergyMonitor.Utils {
           while (!Cancel.IsCancellationRequested) {
             Thread.Sleep(1000);
             SeparatePastDays();
+            Serialize();
           }
         }, Cancel.Token);
       }
@@ -76,10 +81,13 @@ namespace EnergyMonitor.Utils {
 
     public void SeparatePastDays() {
       lock (_syncObject) {
-        while (TryTake(out var item)) {
-          // only take items from yesterday
+        // only take items from yesterday
+        var yesterdayItems = Data.Where(temp => TimeSource.Date.AddDays(-1) >= temp.TimeStamp.Date).ToList();
+        // remove taken elements
+        Data.RemoveAll(e => yesterdayItems.Contains(e));
+        // order them into correct day elements
+        foreach (var item in yesterdayItems) {
           if (TimeSource.Date.AddDays(-1) >= item.TimeStamp.Date) {
-
             if (!Days.TryGetValue(item.TimeStamp.Date, out var day)) {
               Days[item.TimeStamp.Date] = new Day();
             }
@@ -123,7 +131,7 @@ namespace EnergyMonitor.Utils {
           }
         }
         Days.Clear();
-        
+
         // add new days 
         foreach (var day in condensatedDays) {
           Days.TryAdd(day.Date, day);
@@ -140,6 +148,10 @@ namespace EnergyMonitor.Utils {
 
     public void Dispose() {
       Dispose(false);
+    }
+
+    public void Add(Entry entry) {
+      Data.Add(entry);
     }
   }
 }
