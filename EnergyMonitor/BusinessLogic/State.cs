@@ -1,12 +1,11 @@
+using System;
 using System.Text.Json.Serialization;
 using EnergyMonitor.Types;
 using EnergyMonitor.Utils;
 using Newtonsoft.Json.Converters;
 
-namespace EnergyMonitor.BusinessLogic
-{
-  public class State : Serializable
-  {
+namespace EnergyMonitor.BusinessLogic {
+  public class State : Serializable {
     public const string FILENAME = "state.info";
 
     public double ActualAveragePower { get; set; }
@@ -17,12 +16,12 @@ namespace EnergyMonitor.BusinessLogic
     public double CurrentPhaseCPower { get; set; }
     public double SolarPower { get; set; }
     public bool Locked { get; set; }
+    public DateTime LastMeasure { get; set; }
 
     [JsonConverter(typeof(StringEnumConverter))]
     public OutputState ActualOutputState { get; set; }
 
-    public State()
-    {
+    public State() {
       FileName = FILENAME;
     }
   }
