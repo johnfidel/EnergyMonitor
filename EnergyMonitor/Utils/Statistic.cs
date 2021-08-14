@@ -60,11 +60,16 @@ namespace EnergyMonitor.Utils {
       if (!noWorker) {
         Cancel = new CancellationTokenSource();
         Worker = Task.Factory.StartNew(() => {
-          while (!Cancel.IsCancellationRequested) {
-            Thread.Sleep(1000);
-            SeparatePastDays();
-            Serialize();
+          try {
+
+            while (!Cancel.IsCancellationRequested) {
+              Thread.Sleep(1000);
+              SeparatePastDays();
+              Serialize();
+            }
           }
+          catch (TaskCanceledException) { }
+
         }, Cancel.Token);
       }
     }

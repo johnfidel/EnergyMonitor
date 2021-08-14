@@ -75,6 +75,20 @@ namespace EnergyMonitor_UnitTest.Utils {
     }
 
     [TestMethod]
+    public void SpearatePastDays_OnlyEntriesFromToday_NoDayIsCreatedAllEntriesStillExisting() {
+      Stat.CurrentTime = new DateTime(2021, 3, 10);
+      Stat.Add(CreateRandomEntry(new DateTime(2021, 3, 10)));
+      Stat.Add(CreateRandomEntry(new DateTime(2021, 3, 10)));
+      Stat.Add(CreateRandomEntry(new DateTime(2021, 3, 10)));
+      Stat.Add(CreateRandomEntry(new DateTime(2021, 3, 10)));
+      Stat.Add(CreateRandomEntry(new DateTime(2021, 3, 10)));
+      Stat.Add(CreateRandomEntry(new DateTime(2021, 3, 10)));      
+      Stat.SeparatePastDays();
+      Assert.AreEqual(0, Stat.Days.Count);
+      Assert.AreEqual(6, Stat.Data.Count);
+    }
+
+    [TestMethod]
     public void CondensateDays_PreloadData_DoesCondensate() {
       Stat.CurrentTime = new DateTime(2021, 3, 5);
 
