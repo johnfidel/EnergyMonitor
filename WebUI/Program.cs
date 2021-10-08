@@ -12,9 +12,6 @@ namespace WebUI
 {
   public class Program
   {
-
-    public static Logic Logic { get; set; }
-
     public static void Main(string[] args)
     {
       CreateHostBuilder(args).Build().Run();

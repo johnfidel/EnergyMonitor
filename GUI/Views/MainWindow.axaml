@@ -9,14 +9,38 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="GUI">
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
-        <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <ScottPlot:AvaPlot Name="AvaPlot1" />
+        <StackPanel Grid.Row="0" >
+            <Image Source="avares://GUI/Assets/Solar.png" Height="100" />
+            <StackPanel Orientation="Horizontal" >
+                <Label Content="Solar: " />
+                <Label Content="{Binding SolarPower}" />
+            </StackPanel>
+        </StackPanel>
 
+        <Image Grid.Row="1" Grid.Column="1" Source="avares://GUI/Assets/house.png" Height="200"/>
+
+        <StackPanel Grid.Row="2">
+            <Image Source="avares://GUI/Assets/power.png" Height="100" />
+            <StackPanel>
+                <Label Content="{Binding PhaseA}" />
+                <Label Content="{Binding PhaseB}" />
+                <Label Content="{Binding PhaseC}" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3">
+            <Label Content="{Binding TotalPower}" />
+            <Label Content="{Binding TotalAveragePower}" />
+        </StackPanel>
+
+        <!--<ScottPlot:AvaPlot Name="AvaPlot1" />-->
     </Grid>
 </Window>

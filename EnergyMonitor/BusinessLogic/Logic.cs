@@ -9,9 +9,16 @@ using static EnergyMonitor.Devices.PowerMeter.Shelly.Shelly3EM;
 using EnergyMonitor.Types;
 using EnergyMonitor.Devices.PowerMeter;
 using EnergyMonitor.Devices.PowerSwitch;
+using EnergyMonitor.L4_Driver.Socket;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("EnergyMonitor_UnitTest")]
+[assembly: InternalsVisibleTo("GUI")]
+[assembly: InternalsVisibleTo("WebUI")]
+[assembly: InternalsVisibleTo("Client")]
 
 namespace EnergyMonitor.BusinessLogic {
-  public class Logic : TaskBase {
+  class Logic : TaskBase {
 
     private IPowermeter Powermeter { get; set; }
     private IPowerSwitch PowerSwitch { get; set; }
@@ -22,7 +29,7 @@ namespace EnergyMonitor.BusinessLogic {
     public Configuration Configuration { get; protected set; }
     public Statistic Statistic { get; private set; }
     public State CurrentState { get; private set; }
-    public TcpServer TcpServer { get; set; }
+    public TcpSocketServer TcpServer { get; set; }
 
     private bool LockingTimeRangeSet() {
       return (Configuration.LockTimeStart != new DateTime() && Configuration.LockTimeEnd != new DateTime());
@@ -105,7 +112,7 @@ namespace EnergyMonitor.BusinessLogic {
         Powermeter.SetRelayState(OutputState.Off);
       }
       CurrentState.Serialize();
-      TcpServer.SendToClients(CurrentState.ToJson());
+      TcpServer.Write(CurrentState.ToJson());
     }
 
     public Logic(bool suspended) : base(100, suspended) {
@@ -118,7 +125,7 @@ namespace EnergyMonitor.BusinessLogic {
       Averager.Start();
       Cycle = Configuration.LogicUpdateRateSeconds * 1000;
 
-      TcpServer = new TcpServer(Configuration.TcpServerPort);
+      TcpServer = new TcpSocketServer(Configuration.TcpServerPort);
       TcpServer.Start();
 
       if (!suspended) { Start(); }

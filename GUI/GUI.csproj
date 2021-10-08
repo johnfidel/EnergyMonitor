@@ -9,13 +9,24 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Resources\house.png" />
+    <None Remove="Resources\power.png" />
+    <None Remove="Resources\Solar.png" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.5" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.5" />
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.5" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.5" />
+    <PackageReference Include="ReactiveUI.Fody" Version="16.2.6" />
     <PackageReference Include="ScottPlot.Avalonia" Version="4.1.16" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EnergyMonitor\EnergyMonitor.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\house.png" />
+    <Resource Include="Resources\power.png" />
+    <Resource Include="Resources\Solar.png" />
   </ItemGroup>
 </Project>

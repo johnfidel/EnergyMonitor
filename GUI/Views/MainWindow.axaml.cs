@@ -17,9 +17,9 @@ namespace GUI.Views {
 #endif
       DataContext = ViewModel = viewModel;
 
-      AvaPlot avaPlot1 = this.Find<AvaPlot>("AvaPlot1");
+      //AvaPlot avaPlot1 = this.Find<AvaPlot>("AvaPlot1");
       
-      avaPlot1.Plot.AddScatter(ViewModel.DataX, ViewModel.DataY);
+      //avaPlot1.Plot.AddScatter(ViewModel.DataX, ViewModel.DataY);
     }
 
     private void InitializeComponent() {
