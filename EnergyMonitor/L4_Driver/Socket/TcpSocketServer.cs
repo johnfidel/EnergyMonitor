@@ -19,26 +19,32 @@ namespace EnergyMonitor.L4_Driver.Socket {
     private object _syncObject;
 
     public TcpSocketServer(Int32 listeningPort) : base(100, true) {
-      IPAddress localAddr = IPAddress.Parse("127.0.0.1");
-      Clients = new List<TcpClient>();
-      Server = new TcpListener(localAddr, listeningPort);
-      _syncObject = new object();
+      try {
+        IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+        Clients = new List<TcpClient>();
+        Server = new TcpListener(localAddr, listeningPort);
+        _syncObject = new object();
 
-      // Start listening for client requests.
-      Server.Start();
+        // Start listening for client requests.
+        Server.Start();
 
-      AcceptClientsTask = Task.Factory.StartNew(() => {
-        while (!CancellationToken.IsCancellationRequested) {
-          Logging.Instance().Log(new LogMessage($"Wait for Tcp connection..."));
-          TcpClient client = Server.AcceptTcpClient();
-          lock (_syncObject) {
-            Clients.Add(client);
+        AcceptClientsTask = Task.Factory.StartNew(() => {
+          while (!CancellationToken.IsCancellationRequested) {
+            Logging.Instance().Log(new LogMessage($"Wait for Tcp connection..."));
+            TcpClient client = Server.AcceptTcpClient();
+            lock (_syncObject) {
+              Clients.Add(client);
+            }
+            Logging.Instance().Log(new LogMessage($"Accepted Tcp connection ({client.Client.RemoteEndPoint})"));
           }
-          Logging.Instance().Log(new LogMessage($"Accepted Tcp connection ({client.Client.RemoteEndPoint})"));
-        }
-      }, CancellationToken.Token);
+        }, CancellationToken.Token);
 
-      Logging.Instance().Log(new LogMessage("TcpServer started"));
+        Logging.Instance().Log(new LogMessage("TcpServer started"));
+      }
+      catch (Exception e) {
+        Logging.Instance().Log(new LogMessage($"Unexcepted Error {e.Message}"));
+      }
+
     }
 
     public event DataReceivedEvent<string> DataReceivedEvent;

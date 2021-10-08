@@ -68,7 +68,9 @@ namespace EnergyMonitor.Utils {
               Serialize();
             }
           }
-          catch (TaskCanceledException) { }
+          catch (TaskCanceledException) { 
+            Logging.Instance().Log(new LogMessage($"Exception in {this.GetType()}"));
+          }
 
         }, Cancel.Token);
       }

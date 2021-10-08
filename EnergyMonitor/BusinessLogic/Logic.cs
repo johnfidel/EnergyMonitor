@@ -112,7 +112,7 @@ namespace EnergyMonitor.BusinessLogic {
         Powermeter.SetRelayState(OutputState.Off);
       }
       CurrentState.Serialize();
-      TcpServer.Write(CurrentState.ToJson());
+      TcpServer?.Write(CurrentState.ToJson());
     }
 
     public Logic(bool suspended) : base(100, suspended) {
@@ -125,8 +125,8 @@ namespace EnergyMonitor.BusinessLogic {
       Averager.Start();
       Cycle = Configuration.LogicUpdateRateSeconds * 1000;
 
-      TcpServer = new TcpSocketServer(Configuration.TcpServerPort);
-      TcpServer.Start();
+      //  TcpServer = new TcpSocketServer(Configuration.TcpServerPort);
+      //  TcpServer.Start();
 
       if (!suspended) { Start(); }
     }
@@ -134,8 +134,8 @@ namespace EnergyMonitor.BusinessLogic {
     protected override void Dispose(bool disposing) {
       base.Dispose(disposing);
 
-      TcpServer.Dispose();
-      Statistic.Dispose();
+      TcpServer?.Dispose();
+      Statistic?.Dispose();
     }
   }
 }
