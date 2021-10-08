@@ -5,11 +5,11 @@
   ViewData["Title"] = "Home page";
 }
 
+<script src="js/Chart.min.js"></script>  
 <meta http-equiv="refresh" content="@Model.GetConfiguration().LogicUpdateRateSeconds">
 
 <head>
 </head>
-
 <div class="text-center">
   <h1 class="display-4">Welcome</h1>
   <div id="dynamicData">
@@ -99,5 +99,16 @@
         <input type="submit" value="Save" asp-page-handler="Save" />
       </div>
     </form>
+  </div>
+
+  <div>  
+    <canvas id="barChartLoc" height="300" width="300"></canvas>  
+    <script>  
+        var barChartLocData = {  
+            labels: ["January", "Feburary", "March"],  
+            datasets: [{ fillColor: "lightblue", strokeColor: "blue", data: [15, 20, 35] }]  
+        };  
+        var mybarChartLoc = new Chart(document.getElementById("barChartLoc").getContext("2d")).Bar(barChartLocData);  
+    </script>  
   </div>
 </div>

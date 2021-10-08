@@ -15,4 +15,7 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.5" />
     <PackageReference Include="ScottPlot.Avalonia" Version="4.1.16" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EnergyMonitor\EnergyMonitor.csproj" />
+  </ItemGroup>
 </Project>

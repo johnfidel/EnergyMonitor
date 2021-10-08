@@ -4,6 +4,13 @@
     <ProjectReference Include="..\EnergyMonitor\EnergyMonitor.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Chart.js" Version="2.9.3" />
+    <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.7" />
+    <PackageReference Include="Razor.Templating.Core" Version="1.5.0" />
+    <PackageReference Include="System-Web-Helpers.dll" Version="1.0.0" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
