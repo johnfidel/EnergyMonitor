@@ -20,24 +20,13 @@ namespace EnergyMonitor.L4_Driver.Socket {
 
     public TcpSocketServer(Int32 listeningPort) : base(100, true) {
       try {
-        IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+        IPAddress localAddr = IPAddress.Parse("0.0.0.0");
         Clients = new List<TcpClient>();
         Server = new TcpListener(localAddr, listeningPort);
         _syncObject = new object();
 
         // Start listening for client requests.
         Server.Start();
-
-        AcceptClientsTask = Task.Factory.StartNew(() => {
-          while (!CancellationToken.IsCancellationRequested) {
-            Logging.Instance().Log(new LogMessage($"Wait for Tcp connection..."));
-            TcpClient client = Server.AcceptTcpClient();
-            lock (_syncObject) {
-              Clients.Add(client);
-            }
-            Logging.Instance().Log(new LogMessage($"Accepted Tcp connection ({client.Client.RemoteEndPoint})"));
-          }
-        }, CancellationToken.Token);
 
         Logging.Instance().Log(new LogMessage("TcpServer started"));
       }
@@ -52,6 +41,19 @@ namespace EnergyMonitor.L4_Driver.Socket {
     protected override void Run() {
       try {
         List<TcpClient> clientsToRemove = new List<TcpClient>();
+
+        if (AcceptClientsTask == null) {
+          AcceptClientsTask = Task.Factory.StartNew(() => {
+            while (!CancellationToken.IsCancellationRequested) {
+              Logging.Instance().Log(new LogMessage($"Wait for Tcp connection..."));
+              TcpClient client = Server.AcceptTcpClient();
+              lock (_syncObject) {
+                Clients.Add(client);
+              }
+              Logging.Instance().Log(new LogMessage($"Accepted Tcp connection ({client.Client.RemoteEndPoint})"));
+            }
+          }, CancellationToken.Token);
+        }
 
         lock (_syncObject) {
           foreach (var client in Clients) {

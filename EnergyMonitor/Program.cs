@@ -15,8 +15,12 @@ namespace EnergyMonitor {
 
       var logic = new Logic(true);
       logic.Start();
-      Thread.Sleep(100);
-      while (logic.Status == System.Threading.Tasks.TaskStatus.Running) { Thread.Sleep(100); }
+      Logging.Instance().Log(new LogMessage($"Waiting for Run {AppDomain.CurrentDomain.FriendlyName}"));
+      while (logic.Status != System.Threading.Tasks.TaskStatus.Running) Thread.Sleep(100);
+      Logging.Instance().Log(new LogMessage($"Running {AppDomain.CurrentDomain.FriendlyName}"));
+      while (logic.Status == System.Threading.Tasks.TaskStatus.Running) Thread.Sleep(100);
+
+      Logging.Instance().Log(new LogMessage($"Terminate {AppDomain.CurrentDomain.FriendlyName}"));
 
       logic.Stop();
 

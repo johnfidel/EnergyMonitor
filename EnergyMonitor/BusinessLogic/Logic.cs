@@ -125,8 +125,8 @@ namespace EnergyMonitor.BusinessLogic {
       Averager.Start();
       Cycle = Configuration.LogicUpdateRateSeconds * 1000;
 
-      //  TcpServer = new TcpSocketServer(Configuration.TcpServerPort);
-      //  TcpServer.Start();
+      TcpServer = new TcpSocketServer(Configuration.TcpServerPort);
+      TcpServer.Start();
 
       if (!suspended) { Start(); }
     }

@@ -26,12 +26,15 @@ namespace EnergyMonitor.Utils
 
             Thread.Sleep(Cycle);
           }
+          Logging.Instance().Log(new LogMessage($"Terminated Thread {this.GetType().Name}"));
         }
 
         catch (Exception e) { 
           Logging.Instance().Log(new LogMessage($"Exception in {this.GetType().Name} {e.Message}"));
         }
       }, CancellationToken.Token);
+      
+      Logging.Instance().Log(new LogMessage($"Started Thread {GetType().Name}"));
     }
 
     public void Stop()
@@ -41,7 +44,7 @@ namespace EnergyMonitor.Utils
 
     public TaskStatus Status
     {
-      get => Worker.Status;
+      get => Worker?.Status ?? TaskStatus.WaitingToRun;
     }
 
     public TaskBase() : this(100, false) { }
